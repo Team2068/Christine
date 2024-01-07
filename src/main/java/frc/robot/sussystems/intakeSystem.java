@@ -24,8 +24,8 @@ public class intakeSystem extends SubsystemBase {
 
   }
 
-  public void setHangPosition(boolean isUp) {
-    hang1.setPosition(Math.toDegrees((isUp) ? 60 : 0));
+  public void setHangPosition(double position) {
+    hang1.setPosition(position);
   }
 
   public void setIntakeSpeed(double speed) {
