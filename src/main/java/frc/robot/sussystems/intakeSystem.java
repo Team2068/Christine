@@ -30,6 +30,5 @@ public class intakeSystem extends SubsystemBase {
 
   public void setIntakeSpeed(double speed) {
     intake.set(speed);
-
   }
 }
