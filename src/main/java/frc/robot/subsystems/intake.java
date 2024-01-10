@@ -10,10 +10,11 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
 public class intake extends SubsystemBase {
    public TalonFX pivotMotor = new TalonFX(0);
    public CANSparkMax intakeMotor = new CANSparkMax(0, MotorType.kBrushless);
-
+   public DigitalInput beambreak = new DigitalInput(0);
   /** Creates a new conveyor. */
   public intake() {
 
@@ -33,6 +34,10 @@ public class intake extends SubsystemBase {
 
   public void stop(){
     intakeMotor.stopMotor();
+  }
+
+  public boolean loaded() {
+    return beambreak.get();
   }
 
   @Override
