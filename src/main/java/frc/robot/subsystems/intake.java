@@ -11,18 +11,18 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class intake extends SubsystemBase {
-   public TalonFX pivotMotor = new TalonFX(0);
+   public TalonFX pivot = new TalonFX(0);
    public CANSparkMax intakeMotor = new CANSparkMax(0, MotorType.kBrushless);
    public DigitalInput beambreak = new DigitalInput(0);
   
   public intake() {} // TODO: see if any configuration is needed for the Pivot
  
   public void open(){
-    pivotMotor.setPosition(0);
+    pivot.setPosition(0);
   }
 
   public void close(){
-    pivotMotor.setPosition(0);
+    pivot.setPosition(0);
   }
 
   public void setSpeed(double speed){
