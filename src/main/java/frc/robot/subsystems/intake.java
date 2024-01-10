@@ -5,21 +5,34 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class conveyor extends SubsystemBase {
-  TalonFX conveyorMotor = new TalonFX(0);
+public class intake extends SubsystemBase {
+   public TalonFX pivotMotor = new TalonFX(0);
+   public CANSparkMax intakeMotor = new CANSparkMax(0, MotorType.kBrushless);
 
   /** Creates a new conveyor. */
-  public conveyor() {
+  public intake() {
+
   }
  
+  public void open(){
+    pivotMotor.setPosition(0);
+  }
+
+  public void close(){
+    pivotMotor.setPosition(0);
+  }
+
   public void setSpeed(double speed){
-    conveyorMotor.set(speed);
+    intakeMotor.set(speed);
   }
 
   public void stop(){
-    conveyorMotor.stopMotor();
+    intakeMotor.stopMotor();
   }
 
   @Override
