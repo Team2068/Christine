@@ -61,6 +61,14 @@ public class SwerveModule {
 
         //drive motor voltage compensation
 
+        steerMotor.getPIDController().setP(0.1);
+        steerMotor.getPIDController().setI(0);
+        steerMotor.getPIDController().setD(1);
+
+        steerMotor.setPeriodicTimeFrame(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 100);
+        steerMotor.setPeriodicTimeFrame(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
+        steerMotor.setPeriodicTimeFrame(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 20);
+
         
     }
     
