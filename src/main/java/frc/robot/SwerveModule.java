@@ -69,7 +69,29 @@ public class SwerveModule {
         steerMotor.setPeriodicTimeFrame(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
         steerMotor.setPeriodicTimeFrame(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 20);
 
-        
+        public void resetDrivePosition() {
+            driveMotor.setPosition(0);
+        }
+
+        public void resetSteerPosition() {
+            driveMotor.setPosition(steerAngle());
+        }
+
+        public void resetAbsolute() {
+            steerEncoder.setAbsolute(0, 250);
+        }
+
+        public double drivePosition() {
+            return driveMotor.getPosition();
+        }
+
+        public double steerPosition() {
+            return (steerEncoder.getAbsPosition() * PI2) % PI2;
+        }
+
+        public void set(double driveVolts, double targetAngle) {
+
+        }
     }
     
 }
