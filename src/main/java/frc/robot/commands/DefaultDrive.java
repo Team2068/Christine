@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
@@ -38,12 +39,23 @@ public class DefaultDrive extends Command {
         this.rotation_supplier = rotationSupplier;
 
         addRequirements(driveSubsystem);
-    }
+        }
     
     @Override
     public void execute() {
         double xSpeed = xLimiter.calculate(x_supplier.getAsDouble());
         double ySpeed = yLimiter.calculate(y_supplier.getAsDouble());
+
+        switch (chassis.ChassisMode) {
+            default: 
+            xSpeed = xLimiter.calculate(x_supplier.getAsDouble());
+            ySpeed = yLimiter.calculate(y_supplier.getAsDouble());
+            break;
+            case 1: 
+            double[] point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
+            break;
+        }
+
         double rotationSpeed = rotation_supplier.getAsDouble() * 0.7;
 
         // double xSpeed = x_supplier.getAsDouble() * 0.5;
