@@ -4,32 +4,23 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-// These classes do not exist on current robot code
-// import frc.robot.Constants;
-// import frc.robot.RobotState;
-// import frc.robot.Constants.ShooterConstants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import java.util.function.Consumer;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class limelight extends SubsystemBase {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+public class Limelight extends SubsystemBase {
     
-  public final static double LIMELIGHT_HEIGHT = 34.5 * 2.54; // Converting from inches to cm
-  public final static double LIMELIGHT_ANGLE = 20;
+  public final static double LIMELIGHT_HEIGHT = 0; // TODO: Measure and note heigh in cm
+  public final static double LIMELIGHT_ANGLE = 0; // TODO: Measure and note the angle in degrees
 
-  public final Runnable[] ids = {};
-
-  public limelight(int ledMode, int streamMode) { // Methods are undefined for type limelight
+  public Limelight(int ledMode, int streamMode) { // Methods are undefined for type limelight
     setLedMode(0);
     setStreamMode(0);
   }
 
-  // Structure for targeted data
   public class TargetData {
     public boolean hasTargets = false;
     public double horizontalOffset = 0;
@@ -57,6 +48,21 @@ public class limelight extends SubsystemBase {
     updateTargetData(table);
   }
 
+  // It's very inaccurate of objects that are same height as the robot
+  public double distance() {
+    TargetData targetData = getTargetData();
+    double a2 = targetData.verticalOffset;
+    double a1 = LIMELIGHT_ANGLE;
+    double h1 = LIMELIGHT_HEIGHT;
+    double h2 = tagPose()[1]; // [X,Y,Z,Roll,Pitch,Yaw]
+
+    double result = h2 - h1;
+    double radians = Math.toRadians(a1 + a2);
+    double dist = result / Math.tan(radians);
+
+    return Math.abs(dist);
+  }
+
   private void updateTargetData(NetworkTable table) {
     targetData.hasTargets = table.getEntry("tv").getBoolean(false);
     targetData.horizontalOffset = table.getEntry("tx").getDouble(0.0);
@@ -72,38 +78,6 @@ public class limelight extends SubsystemBase {
 
   public TargetData getTargetData() {
     return targetData;
-  }
-
-  // R^2 = 0.9687
-  public double linearRPM() {
-    return 2.86381 * Distance() + 2438; // y = mx + b
-  }
-
-  // R^2 = 0.9203
-  public double curveRPM() {
-    double distance = Distance();
-    double squared = distance * distance;
-    return 0.0523285 * squared + 3101.62; // y = mx^2 + b
-  }
-
-  // R^2 = 0.9761
-  public double logRPM() {
-    return Math.log(Distance())/Math.log(1.00075) -4333.96;
-  }
-
-  // It's very inaccurate of objects that are same height as the robot
-  public double Distance() {
-    TargetData targetData = getTargetData();
-    double a2 = targetData.verticalOffset;
-    double a1 = LIMELIGHT_ANGLE;
-    double h1 = LIMELIGHT_HEIGHT;
-    double h2 = 103 * 2.54; // UpperHub height in inches 
-
-    double result = h2 - h1;
-    double radians = Math.toRadians(a1 + a2);
-    double distance = result / Math.tan(radians);
-
-    return Math.abs(distance);
   }
 
   public void toggleStreamMode(){
@@ -126,58 +100,27 @@ public class limelight extends SubsystemBase {
     table.getEntry("stream").setNumber(newStreamMode);
   }
 
-  public int LedMode() {
+  public int ledMode() {
     return (int) table.getEntry("ledMode").getDouble(0.0);
   }
 
-  public int Pipeline() {
+  public int pipeline() {
     return (int) table.getEntry("pipeline").getDouble(0.0);
   }
 
-  public int StreamMode() {
+  public int streamMode() {
     return (int) table.getEntry("stream").getDouble(0.0);
   }
 
-  public double[] Botpose() {
+  public double[] botpose() {
     return table.getEntry("stream").getDoubleArray( (double[]) null);
   }
 
-  public int AprilTagID() {
+  public int tagID() {
     return (int) table.getEntry("tid").getInteger(-1);
   }
 
-  // Calculated Shooting?
-  public double calculatedShooterRPM() {
-    double distance = Distance();
-    double[] distTab = new double[5];
-    double[] rpmTab = new double[5];
-
-    int low = 0;
-    int high = 0;
-
-    for (int i = 0; i < distTab.length>>1; i++) {
-      if (distance < distTab[i]){ //If lower > dist -> upper bound found
-        high = i; 
-        low = i-1;
-        break;
-      }
-
-      if (distance > distTab[distTab.length - 1- i]){ //If higher < dist -> higer is lower bound
-        low = distTab.length - i -1;
-        high = low + 1;
-        break;
-      }
-    }
-
-    if (low == -1)
-      return rpmTab[0]+(distance-distTab[0])/(distTab[1]-distTab[0])*(rpmTab[1]-rpmTab[0]);
-    
-    if (high == distTab.length)
-      return rpmTab[3]+(distance-distTab[3])/(distTab[4]-distTab[3])*(rpmTab[4]-rpmTab[3]);
-    
-    return rpmTab[low] + (distance - distTab[low])*((rpmTab[high]- rpmTab[low])/(distTab[high]- distTab[low]));
-
+  public double[] tagPose(){
+    return table.getEntry("targetpose_robotspace").getDoubleArray( (double[]) null);
   }
-
-
 }
