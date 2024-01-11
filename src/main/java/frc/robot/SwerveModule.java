@@ -31,7 +31,6 @@ public class SwerveModule {
     public SwerveModule(Shuffleboard tab, int driveID, int steerID, int steerEncoderID, double offset) {
         driveMotor = new TalonFX(driveID);
         steerMotor = new CANSparkMax(steerID, MotorType.kBrushless);
-        driveEncoder = driveMotor.
         steerEncoder = new Canandcoder(steerEncoderID);
 
         CanandcoderSettings settings = new CanandcoderSettings();
@@ -50,6 +49,17 @@ public class SwerveModule {
 
         steerMotor.setIdleMode(IdleMode.kBrake);
         driveMotor.setNeutralMode(NeutralModeValue.Coast);
+
+        //drive motor positoin velocity conversion factors
+
+        steerMotor.getEncoder().setPositionConversionFactor(Math.PI * STEER_REDUCTION);
+        steerMotor.getEncoder().setVelocityConversionFactor(Math.PI * STEER_REDUCTION / 60);
+        steerMotor.getEncoder().setPosition(steerAngle());
+        
+        driveMotor.setInverted(true);
+        steerMotor.setInverted(false);
+
+        //drive motor voltage compensation
 
         
     }
