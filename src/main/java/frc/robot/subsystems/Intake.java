@@ -8,14 +8,15 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class intake extends SubsystemBase {
-   public TalonFX pivot = new TalonFX(0);
-   public CANSparkMax intakeMotor = new CANSparkMax(0, MotorType.kBrushless);
-   public DigitalInput beambreak = new DigitalInput(0);
-  
-  public intake() {} // TODO: see if any configuration is needed for the Pivot
+public class Intake extends SubsystemBase {
+   public TalonFX pivot = new TalonFX(0); // TODO: Replace ID
+   public CANSparkMax intake = new CANSparkMax(0, MotorType.kBrushless); // TODO: Replace ID
+   public DigitalInput beam_break = new DigitalInput(0); // TODO: Replace ID
+
+  public Intake() { }
  
   public void open(){
     pivot.setPosition(0);
@@ -26,15 +27,15 @@ public class intake extends SubsystemBase {
   }
 
   public void setSpeed(double speed){
-    intakeMotor.set(speed);
+    intake.set(speed);
   }
 
   public void stop(){
-    intakeMotor.stopMotor();
+    intake.stopMotor();
   }
 
   public boolean loaded() {
-    return beambreak.get();
+    return beam_break.get();
   }
 
   @Override
