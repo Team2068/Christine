@@ -46,6 +46,25 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("Distance", distance());
 
     updateTargetData(table);
+    if (targetData.hasTargets == false) {
+      SmartDashboard.putNumberArray("TargetPose", (double[]) null);
+    }
+    else {
+      SmartDashboard.putNumberArray("TargetPose", (double[]) tagPose());
+    }
+  }
+
+  private void updateTargetData(NetworkTable table) {
+    targetData.hasTargets = table.getEntry("tv").getBoolean(false);
+    targetData.horizontalOffset = table.getEntry("tx").getDouble(0.0);
+    targetData.verticalOffset = table.getEntry("ty").getDouble(0.0);
+    targetData.targetArea = table.getEntry("ta").getDouble(0.0);
+    targetData.skew = table.getEntry("ts").getDouble(0.0);
+    targetData.latency = table.getEntry("tl").getDouble(0.0);
+    targetData.shortSideLength = table.getEntry("tshort").getDouble(0.0);
+    targetData.longSideLength = table.getEntry("tlong").getDouble(0.0);
+    targetData.horizontalSideLength = table.getEntry("thor").getDouble(0.0);
+    targetData.verticalSideLength = table.getEntry("tvert").getDouble(0.0);
   }
 
   // It's very inaccurate of objects that are same height as the robot
@@ -61,19 +80,6 @@ public class Limelight extends SubsystemBase {
     double dist = result / Math.tan(radians);
 
     return Math.abs(dist);
-  }
-
-  private void updateTargetData(NetworkTable table) {
-    targetData.hasTargets = table.getEntry("tv").getBoolean(false);
-    targetData.horizontalOffset = table.getEntry("tx").getDouble(0.0);
-    targetData.verticalOffset = table.getEntry("ty").getDouble(0.0);
-    targetData.targetArea = table.getEntry("ta").getDouble(0.0);
-    targetData.skew = table.getEntry("ts").getDouble(0.0);
-    targetData.latency = table.getEntry("tl").getDouble(0.0);
-    targetData.shortSideLength = table.getEntry("tshort").getDouble(0.0);
-    targetData.longSideLength = table.getEntry("tlong").getDouble(0.0);
-    targetData.horizontalSideLength = table.getEntry("thor").getDouble(0.0);
-    targetData.verticalSideLength = table.getEntry("tvert").getDouble(0.0);
   }
 
   public TargetData getTargetData() {
