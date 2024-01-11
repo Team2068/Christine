@@ -26,14 +26,14 @@ public class Flywheel extends SubsystemBase {
   }
 
   public double pivotAngle(double tag_height, double tag_distance){
-    const double radius;
-    const double conversion_factor = 60/(2*Math.PI*radius);
     return Math.atan(tag_height/tag_distance);
   }
 
-  public double RPM(double angle){
-    double raw_rpm = conversion_factor * Math.Sqrt(tag_distance * -9.8 * Math.sin(2*angle)); // NOTE: 9.8 could be negative or positive, idk
-    return rpm = Math.max(0,Math.min(6000.0, raw_rpm));
+  public double RPM(double angle, double distance){
+    double radius = 0; // TODO: find radius for the flywheel
+    double conversion_factor = 60/(2*Math.PI*radius);
+    double raw_rpm = conversion_factor * Math.sqrt(distance * -9.8 * Math.sin(2*angle)); // NOTE: 9.8 could be negative or positive, idk
+    return Math.max(0,Math.min(6000.0, raw_rpm));
   }
 
   @Override

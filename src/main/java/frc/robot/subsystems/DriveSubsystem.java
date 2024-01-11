@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.WPI_Pigeon2;
-import com.ctre.phoenix.sensors.Pigeon2.AxisDirection;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,13 +40,13 @@ public class DriveSubsystem extends SubsystemBase {
             new Translation2d(-DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
                     -DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
-    public final WPI_Pigeon2 pigeon2 = new WPI_Pigeon2(DriveConstants.PIGEON_ID);
+    public final Pigeon2 pigeon2 = new Pigeon2(DriveConstants.PIGEON_ID);
 
     private final SwerveDriveOdometry odometry;
-    private final HeliumSwerveModule frontLeftModule;
-    private final HeliumSwerveModule backLeftModule;
-    private final HeliumSwerveModule frontRightModule;
-    private final HeliumSwerveModule backRightModule;
+    private final SwerveModule frontLeftModule;
+    private final SwerveModule backLeftModule;
+    private final SwerveModule frontRightModule;
+    private final SwerveModule backRightModule;
 
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
 
@@ -92,8 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.BACK_RIGHT_ENCODER,
                 DriveConstants.BACK_RIGHT_ENCODER_OFFSET);
 
-        odometry = new SwerveDriveOdometry(
-                kinematics, rotation(), getModulePositions(), new Pose2d(0, 0, new Rotation2d()));
+        odometry = new SwerveDriveOdometry(kinematics, rotation(), getModulePositions(), new Pose2d(0, 0, new Rotation2d()));
 
         // autoBuilder = new SwerveAutoBuilder(this::getPose, this::resetOdometry, new PIDConstants(AutoConstants.kPXController, 0, 0.01), new PIDConstants(AutoConstants.kPThetaController, 0, 0.01), this::drive, Paths.eventMap, true, this);
 

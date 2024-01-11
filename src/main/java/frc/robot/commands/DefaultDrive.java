@@ -2,12 +2,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-public class DefaultDrive extends CommandBase {
+public class DefaultDrive extends Command {
     private final DriveSubsystem chassis;
 
     private final DoubleSupplier x_supplier;
@@ -16,30 +17,25 @@ public class DefaultDrive extends CommandBase {
     private final SlewRateLimiter xLimiter = new SlewRateLimiter(4);
     private final SlewRateLimiter yLimiter = new SlewRateLimiter(4);
 
-    private CommandXboxController controller;
-
     public DefaultDrive(DriveSubsystem chassis, ChassisSpeeds chassisSpeeds) {
         this(chassis, () -> chassisSpeeds.vxMetersPerSecond, () -> chassisSpeeds.vyMetersPerSecond, () -> chassisSpeeds.omegaRadiansPerSecond);
     }
 
     public DefaultDrive(DriveSubsystem chassis, CommandXboxController controller) {
-        this.chassis = chassis;
-        this.controller = controller;
-
-        this(chassis, () -> -modifyAxis(driveController.getLeftY()) * chassis.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(driveController.getLeftX()) * chassis.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(driveController.getRightX())* chassis.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+        this(chassis, () -> -modifyAxis(controller.getLeftY()) * chassis.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(controller.getLeftX()) * chassis.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(controller.getRightX())* chassis.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
     }
   
-    public DefaultDriveCommand(DriveSubsystem driveSubsystem,
+    public DefaultDrive(DriveSubsystem driveSubsystem,
         DoubleSupplier translationXSupplier,
         DoubleSupplier translationYSupplier,
         DoubleSupplier rotationSupplier) {
         
-        this.driveSubsystem = driveSubsystem;
-        this.m_translationXSupplier = translationXSupplier;
-        this.m_translationYSupplier = translationYSupplier;
-        this.m_rotationSupplier = rotationSupplier;
+        this.chassis = driveSubsystem;
+        this.x_supplier = translationXSupplier;
+        this.y_supplier = translationYSupplier;
+        this.rotation_supplier = rotationSupplier;
 
         addRequirements(driveSubsystem);
     }
@@ -53,17 +49,16 @@ public class DefaultDrive extends CommandBase {
         // double xSpeed = x_supplier.getAsDouble() * 0.5;
         // double ySpeed = y_supplier.getAsDouble() * 0.5;
 
-        driveSubsystem.drive((driveSubsystem.isFieldOriented()) ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, driveSubsystem.rotation()) : new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));
+        chassis.drive((chassis.isFieldOriented()) ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, chassis.rotation()) : new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));
     }
 
     @Override
     public void end(boolean interrupted) {
-        driveSubsystem.stop();
+        chassis.stop();
     }
 
     private static double deadband(double value, double deadband) {
-        if (Math.abs(value) <= deadband)
-            return 0.0;
+        if (Math.abs(value) <= deadband) return 0.0;
         deadband *= (value > 0.0) ? 1 : -1;
         return (value + deadband) / (1.0 + deadband);
     }

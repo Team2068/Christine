@@ -16,7 +16,7 @@ public class Limelight extends SubsystemBase {
   public final static double LIMELIGHT_HEIGHT = 0; // TODO: Measure and note heigh in cm
   public final static double LIMELIGHT_ANGLE = 0; // TODO: Measure and note the angle in degrees
 
-  public Limelight(int ledMode, int streamMode) { // Methods are undefined for type limelight
+  public Limelight() { // Methods are undefined for type limelight
     setLedMode(0);
     setStreamMode(0);
   }
@@ -42,8 +42,8 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
     
-    SmartDashboard.putString("Stream Mode", (StreamMode() == 0) ? "Main" : "Secondary");
-    SmartDashboard.putNumber("Distance", Distance());
+    SmartDashboard.putString("Stream Mode", (streamMode() == 0) ? "Main" : "Secondary");
+    SmartDashboard.putNumber("Distance", distance());
 
     updateTargetData(table);
   }
@@ -81,7 +81,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public void toggleStreamMode(){
-    setStreamMode((StreamMode() + 1) % 4);
+    setStreamMode((streamMode() + 1) % 4);
   }
 
   public void setCameraMode(int newCameraMode) {

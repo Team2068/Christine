@@ -4,8 +4,11 @@
 
 package frc.robot.Utility;
 
+import java.util.HashMap;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public final class Constants {
   public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 0.2;
@@ -61,7 +64,7 @@ public final class Constants {
 
   public static class Paths {
     public static final HashMap<String, Command> eventMap = new HashMap<String, Command>();
-    public static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(4, 3);
+    // public static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(4, 3);
   }
 
   public static class GameConstants {
