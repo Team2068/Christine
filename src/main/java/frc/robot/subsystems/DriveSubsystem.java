@@ -193,10 +193,6 @@ public class DriveSubsystem extends SubsystemBase {
                 states[3].angle.getRadians());
     }
 
-    public boolean isFieldOriented() {
-        return fieldOriented;
-    }
-
     public boolean isSlowMode() {
         return slowMode;
     }

@@ -1,6 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,23 +48,30 @@ public class DefaultDrive extends Command {
     public void execute() {
         double xSpeed = xLimiter.calculate(x_supplier.getAsDouble());
         double ySpeed = yLimiter.calculate(y_supplier.getAsDouble());
+        double rotationSpeed = rotation_supplier.getAsDouble() * 0.7;
+        
+        ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 
         switch (chassis.ChassisMode) {
-            default: 
-            xSpeed = xLimiter.calculate(x_supplier.getAsDouble());
-            ySpeed = yLimiter.calculate(y_supplier.getAsDouble());
+            default: break;
+            
+            case 1: // Field-Oriented
+            output = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, chassis.rotation());
             break;
-            case 1: 
+            
+            case 2: // Fixed Point Tracking
             double[] point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
+            Pose2d pose = chassis.getPose();
+            Translation2d slope2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
+            Translation2d tr = new Translation2d(xSpeed, ySpeed).rotateBy(pose.getRotation().plus(new Rotation2d(Math.atan2(slope2d.getY(), slope2d.getX()))).unaryMinus());
+            output = new ChassisSpeeds(tr.getX(), tr.getY(), rotationSpeed);
             break;
         }
-
-        double rotationSpeed = rotation_supplier.getAsDouble() * 0.7;
 
         // double xSpeed = x_supplier.getAsDouble() * 0.5;
         // double ySpeed = y_supplier.getAsDouble() * 0.5;
 
-        chassis.drive((chassis.isFieldOriented()) ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, chassis.rotation()) : new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));
+        chassis.drive(output);
     }
 
     @Override
