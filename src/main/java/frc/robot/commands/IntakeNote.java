@@ -20,6 +20,7 @@ public class IntakeNote extends Command {
   public void initialize() {
     io.intake.open();
     io.intake.setSpeed(-0.5);
+    io.flywheel.setPosition(0);
   }
 
   @Override

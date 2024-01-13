@@ -13,12 +13,8 @@ public class Flywheel extends SubsystemBase {
 
   public Flywheel() {}
 
-  public void open(){
-    pivot.setPosition(0);
-  }
-
-  public void close(){
-    pivot.setPosition(0); // TODO: Make a value for this
+  public void setAngle(double angle){
+    pivot.setPosition(angle);
   }
 
   public static void setSpeed(double speed){
