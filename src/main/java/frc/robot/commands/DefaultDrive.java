@@ -42,7 +42,7 @@ public class DefaultDrive extends Command {
         this.rotation_supplier = rotationSupplier;
 
         addRequirements(driveSubsystem);
-        }
+    }
     
     @Override
     public void execute() {
@@ -53,8 +53,6 @@ public class DefaultDrive extends Command {
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 
         switch (chassis.ChassisMode) {
-            default: break;
-            
             case 1: // Field-Oriented
             output = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, chassis.rotation());
             break;
@@ -68,10 +66,17 @@ public class DefaultDrive extends Command {
             Translation2d tr = new Translation2d(xSpeed, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), rotationSpeed);
             break;
-        }
 
-        // double xSpeed = x_supplier.getAsDouble() * 0.5;
-        // double ySpeed = y_supplier.getAsDouble() * 0.5;
+            case 3: // Fixed Alignment
+            double[] point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
+            Pose2d pose = chassis.getPose();
+            Translation2d dist2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
+            Rotation2d distAngle = new Rotation2d(Math.atan2(dist2d.getY(), dist2d.getX()));
+            Rotation2d adjustmentAngle = pose.getRotation().plus(distAngle);
+            Translation2d tr = new Translation2d(0, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
+            output = new ChassisSpeeds(tr.getX(), tr.getY(), 0);
+            break;
+        }
 
         chassis.drive(output);
     }
