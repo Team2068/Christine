@@ -10,18 +10,20 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.Utility.Constants;
 import frc.robot.Utility.IO;
 
-public class aimbotpid extends PIDCommand {
-  IO io;
+public class Aimbot extends PIDCommand {
+  
+  // TODO: REPLACE ALL THESE PLACEHOLDER VALUES
   public static double AIMBOT_OFFSET_FORWARD = 5.67;
   public static double AIMBOT_OFFSET_BACKWARD = -11.13;
   public static double AimbotSpeed = 123456;
   public static double minimumAdjustment = 2.5;
+  IO io;
 
   public aimbotpid(IO io) {
     super(
         new PIDController(0, 0, 0),
         () -> io.limelight.getTargetData().horizontalOffset,
-        () -> 0,
+        () -> 0, // TODO: replace with actual target offset
         output -> {
           io.chassis.drive(new ChassisSpeeds(0, output * AimbotSpeed * Constants.DRIVE_MAX_VELOCITY_METERS_PER_SECOND, 0));
         });
