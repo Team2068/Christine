@@ -57,7 +57,7 @@ public class DefaultDrive extends Command {
             output = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, chassis.rotation());
             break;
             
-            case 2: // Fixed Point Tracking
+            case 2: // Fixed-Point Tracking
             double[] point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
             Pose2d pose = chassis.getPose();
             Translation2d dist2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
