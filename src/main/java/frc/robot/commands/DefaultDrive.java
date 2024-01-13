@@ -52,7 +52,7 @@ public class DefaultDrive extends Command {
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 
-        switch (chassis.ChassisMode) {
+        switch (chassis.drive_mode) {
             case 1: // Field-Oriented
             output = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, chassis.rotation());
             break;

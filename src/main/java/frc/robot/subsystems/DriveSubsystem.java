@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends SubsystemBase {
     public static double MAX_VOLTAGE = 5;
-    public int ChassisMode = 0;
+    public int drive_mode = 0;
 
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 3;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
@@ -51,7 +51,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
 
-    private boolean fieldOriented = false;
     private boolean slowMode = false;
 
     // SwerveAutoBuilder autoBuilder;
@@ -197,10 +196,6 @@ public class DriveSubsystem extends SubsystemBase {
         return slowMode;
     }
 
-    public void toggleFieldOriented() {
-        fieldOriented = !fieldOriented;
-    }
-
     public void toggleSlowMode() {
         slowMode = !slowMode;
     }
@@ -239,7 +234,22 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch().getValue());
         SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll().getValue());
 
-        SmartDashboard.putString("Drive Mode", fieldOriented ? "Field" : "Robot");
+        var drive_mode_display = "";
+        switch(drive_mode){
+            case 0: drive_mode_display = "Robot-Oriented";
+            break;
+            
+            case 1: drive_mode_display = "Field-Oriented";
+            break;
+            
+            case 2: drive_mode_display = "Fixed-Point Tracking";
+            break;
+
+            case 3: drive_mode_display = "Fixed Alignment";
+            break;
+        }
+
+        SmartDashboard.putString("Drive Mode", drive_mode_display);
         SmartDashboard.putString("Drive Speed", slowMode ? "Slow" : "Normal");
     }
 }
