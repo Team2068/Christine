@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -37,7 +36,19 @@ public class Intake extends SubsystemBase {
   public boolean loaded() {
     return beam_break.get();
   }
-
+  public void takeWhenBreak() {
+    if (beam_break.get() == true){
+      Flywheel.pivotAngle(10, 1);
+      close();
+    }
+    else {
+    Flywheel.setSpeed(0);
+    Flywheel.pivotAngle(0,1);
+    }
+  }
+  public void resetNotBreak() {
+    
+  }
   @Override
   public void periodic() {}
 }

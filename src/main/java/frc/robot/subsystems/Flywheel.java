@@ -9,7 +9,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Flywheel extends SubsystemBase {
   public TalonFX pivot = new TalonFX(1); // TODO: Replace ID
-  public CANSparkMax flywheel = new CANSparkMax(5, MotorType.kBrushless); // TODO: Replace ID
+  public static CANSparkMax flywheel = new CANSparkMax(5, MotorType.kBrushless); // TODO: Replace ID
 
   public Flywheel() {}
 
@@ -21,11 +21,11 @@ public class Flywheel extends SubsystemBase {
     pivot.setPosition(0); // TODO: Make a value for this
   }
 
-  public void setSpeed(double speed){
+  public static void setSpeed(double speed){
     flywheel.set(speed);
   }
 
-  public double pivotAngle(double tag_height, double tag_distance){
+  public static double pivotAngle(double tag_height, double tag_distance){
     return Math.atan(tag_height/tag_distance);
   }
 
