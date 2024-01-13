@@ -62,8 +62,10 @@ public class DefaultDrive extends Command {
             case 2: // Fixed Point Tracking
             double[] point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
             Pose2d pose = chassis.getPose();
-            Translation2d slope2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
-            Translation2d tr = new Translation2d(xSpeed, ySpeed).rotateBy(pose.getRotation().plus(new Rotation2d(Math.atan2(slope2d.getY(), slope2d.getX()))).unaryMinus());
+            Translation2d dist2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
+            Rotation2d distAngle = new Rotation2d(Math.atan2(dist2d.getY(), dist2d.getX()));
+            Rotation2d adjustmentAngle = pose.getRotation().plus(distAngle);
+            Translation2d tr = new Translation2d(xSpeed, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), rotationSpeed);
             break;
         }
