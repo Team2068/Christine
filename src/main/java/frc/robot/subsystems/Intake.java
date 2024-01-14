@@ -14,15 +14,23 @@ public class Intake extends SubsystemBase {
    public TalonFX pivot = new TalonFX(0); // TODO: Replace ID
    public CANSparkMax intake = new CANSparkMax(0, MotorType.kBrushless); // TODO: Replace ID
    public DigitalInput beam_break = new DigitalInput(0); // TODO: Replace ID
+   public boolean intakeOpen;
 
   public Intake() {}
  
   public void open(){
-    pivot.setPosition(0);
+    pivot.setPosition(0); // PLACEHOLDER
+    intakeOpen = true;
   }
 
   public void close(){
-    pivot.setPosition(0);
+    pivot.setPosition(0); 
+    intakeOpen = false;
+  }
+
+  public void toggle(){
+    if (intakeOpen) close();
+    else open();
   }
 
   public void setSpeed(double speed){
