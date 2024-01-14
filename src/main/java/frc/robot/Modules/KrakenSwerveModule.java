@@ -44,11 +44,12 @@ public class KrakenSwerveModule {
         steerEncoder.setSettings(settings);
 
         TalonFXConfiguration configs = new TalonFXConfiguration();
-        driveMotor.getConfigurator().apply(configs);
 
-        steerMotor.setSmartCurrentLimit(20);
         CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
         configs.withCurrentLimits(currentConfigs.withSupplyCurrentLimit(40));//driveMotor.configSupplyCurrentLimit();
+
+        driveMotor.getConfigurator().apply(configs);
+        steerMotor.setSmartCurrentLimit(20);
 
         steerMotor.setIdleMode(IdleMode.kBrake);
         driveMotor.setNeutralMode(NeutralModeValue.Coast);

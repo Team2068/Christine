@@ -19,7 +19,7 @@ public class Aimbot extends PIDCommand {
   public static double minimumAdjustment = 2.5;
   IO io;
 
-  public aimbotpid(IO io) {
+  public Aimbot(IO io) {
     super(
         new PIDController(0, 0, 0),
         () -> io.limelight.getTargetData().horizontalOffset,

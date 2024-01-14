@@ -15,7 +15,7 @@ public class Intake extends SubsystemBase {
    public CANSparkMax intake = new CANSparkMax(0, MotorType.kBrushless); // TODO: Replace ID
    public DigitalInput beam_break = new DigitalInput(0); // TODO: Replace ID
 
-  public Intake() { }
+  public Intake() {}
  
   public void open(){
     pivot.setPosition(0);
@@ -36,19 +36,7 @@ public class Intake extends SubsystemBase {
   public boolean loaded() {
     return beam_break.get();
   }
-  public void takeWhenBreak() {
-    if (beam_break.get() == true){
-      Flywheel.pivotAngle(10, 1);
-      close();
-    }
-    else {
-    Flywheel.setSpeed(0);
-    Flywheel.pivotAngle(0,1);
-    }
-  }
-  public void resetNotBreak() {
-    
-  }
+
   @Override
   public void periodic() {}
 }

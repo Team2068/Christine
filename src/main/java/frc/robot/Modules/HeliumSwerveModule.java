@@ -1,14 +1,13 @@
 package frc.robot.Modules;
 
-import com.reduxrobotics.sensors.canandcoder.Canandcoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkLowLevel;
-
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import com.reduxrobotics.sensors.canandcoder.Canandcoder;
+
 
 public class HeliumSwerveModule implements SwerveModule {
     public final CANSparkMax driveMotor;
@@ -31,7 +30,6 @@ public class HeliumSwerveModule implements SwerveModule {
 
         Canandcoder.Settings settings = new Canandcoder.Settings();
         settings.setInvertDirection(true);
-
         steerEncoder.clearStickyFaults();
         steerEncoder.resetFactoryDefaults(false);
         steerEncoder.setSettings(settings);
@@ -57,9 +55,9 @@ public class HeliumSwerveModule implements SwerveModule {
         steerMotor.getPIDController().setI(0.0);
         steerMotor.getPIDController().setD(1.0);
 
-        steerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 100);
-        steerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 20);
-        steerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 20);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0,100);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1,20);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2,20);
 
         tab.addDouble("Absolute Angle", () -> Math.toDegrees(steerAngle())); 
         tab.addDouble("Current Angle", () -> Math.toDegrees(steerMotor.getEncoder().getPosition()));

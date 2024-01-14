@@ -19,43 +19,43 @@ public class LEDs extends SubsystemBase {
     led.start();
   }
 
-    public void bootLed(){ //made this with a pattern of blue, yellow, blue, yellow but can make boot up rainbow if you want
-        for (int i = 0; i < ledBuffer.getLength(); i++) {
-            if (i % 2 == 0) { 
-                  ledBuffer.setRGB(i, 0, 0, 255);
-            } else {
-                  ledBuffer.setRGB(i, 255, 247, 0);
-            }
-        }
-    }
-
-    public void holdNoteLed(){
+  public void bootLed() { // made this with a pattern of blue, yellow, blue, yellow but can make boot up rainbow if you want
     for (int i = 0; i < ledBuffer.getLength(); i++) {
-        ledBuffer.setRGB(i, 0, 255, 0);
-        }
-        led.setData(ledBuffer);
-    }
-
-    public void noNotesLed(){
-    for (int i = 0; i < ledBuffer.getLength(); i++) {
-        ledBuffer.setRGB(i, 255, 0, 0);
-        }
-        led.setData(ledBuffer);
-    }
-
-    public void autonLed(){
-    for (int i = 0; i < ledBuffer.getLength(); i++) {
-        ledBuffer.setRGB(i, 5, 237, 245);
-        }
-        led.setData(ledBuffer);
-    }
-
-    public void sequenceLed(){
-        for (int i = 0; i < ledBuffer.getLength(); i++) {
+      if (i % 2 == 0) {
+        ledBuffer.setRGB(i, 0, 0, 255);
+      } else {
         ledBuffer.setRGB(i, 255, 247, 0);
-        }
-        led.setData(ledBuffer);
+      }
     }
+  }
+
+  public void holdNoteLed() {
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 0, 255, 0);
+    }
+    led.setData(ledBuffer);
+  }
+
+  public void noNotesLed() {
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 255, 0, 0);
+    }
+    led.setData(ledBuffer);
+  }
+
+  public void autonLed() {
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 5, 237, 245);
+    }
+    led.setData(ledBuffer);
+  }
+
+  public void sequenceLed() {
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 255, 247, 0);
+    }
+    led.setData(ledBuffer);
+  }
 
   public static class LEDConstants {
     public static final int LED_PORT = 0;

@@ -26,9 +26,9 @@ public class DefaultDrive extends Command {
     }
 
     public DefaultDrive(DriveSubsystem chassis, CommandXboxController controller) {
-        this(chassis, () -> -modifyAxis(controller.getLeftY()) * chassis.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(controller.getLeftX()) * chassis.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(controller.getRightX())* chassis.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+        this(chassis, () -> -modifyAxis(controller.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(controller.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(controller.getRightX())* DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
     }
   
     public DefaultDrive(DriveSubsystem driveSubsystem,
@@ -52,28 +52,35 @@ public class DefaultDrive extends Command {
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 
+        Pose2d pose;
+        double[] point;
+        Translation2d tr;
+        Rotation2d distAngle;
+        Translation2d dist2d;
+        Rotation2d adjustmentAngle;
+
         switch (chassis.drive_mode) {
             case 1: // Field-Oriented
             output = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, chassis.rotation());
             break;
             
             case 2: // Fixed-Point Tracking
-            double[] point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
-            Pose2d pose = chassis.getPose();
-            Translation2d dist2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
-            Rotation2d distAngle = new Rotation2d(Math.atan2(dist2d.getY(), dist2d.getX()));
-            Rotation2d adjustmentAngle = pose.getRotation().plus(distAngle);
-            Translation2d tr = new Translation2d(xSpeed, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
+            point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
+            pose = chassis.getPose();
+            dist2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
+            distAngle = new Rotation2d(Math.atan2(dist2d.getY(), dist2d.getX()));
+            adjustmentAngle = pose.getRotation().plus(distAngle);
+            tr = new Translation2d(xSpeed, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), rotationSpeed);
             break;
 
             case 3: // Fixed Alignment
-            double[] point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
-            Pose2d pose = chassis.getPose();
-            Translation2d dist2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
-            Rotation2d distAngle = new Rotation2d(Math.atan2(dist2d.getY(), dist2d.getX()));
-            Rotation2d adjustmentAngle = pose.getRotation().plus(distAngle);
-            Translation2d tr = new Translation2d(0, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
+            point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
+            pose = chassis.getPose();
+            dist2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
+            distAngle = new Rotation2d(Math.atan2(dist2d.getY(), dist2d.getX()));
+            adjustmentAngle = pose.getRotation().plus(distAngle);
+            tr = new Translation2d(0, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), 0);
             break;
         }
