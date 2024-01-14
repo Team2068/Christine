@@ -17,7 +17,7 @@ public class Flywheel extends SubsystemBase {
     pivot.setPosition(angle);
   }
 
-  public static void setSpeed(double speed){
+  public void setSpeed(double speed){
     flywheel.set(speed);
   }
 

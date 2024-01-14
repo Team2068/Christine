@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Utility.IO;
+import frc.robot.subsystems.Flywheel;
 
 public class Shoot extends Command {
   IO io;
@@ -19,7 +21,6 @@ public class Shoot extends Command {
 
   @Override
   public void execute() {
-    // TODO: Get tag height 
     double distance = io.limelight.distance();
     double height = io.limelight.tagPose()[1] - io.chassis.getPose().getY();
     double angle = Flywheel.pivotAngle(height,distance);
@@ -36,6 +37,6 @@ public class Shoot extends Command {
 
   @Override
   public boolean isFinished() {
-    return (!io.intake.loaded());
+    return !io.intake.loaded() || !io.limelight.targetData().hasTargets;
   }
 }

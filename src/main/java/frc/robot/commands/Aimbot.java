@@ -22,7 +22,7 @@ public class Aimbot extends PIDCommand {
   public Aimbot(IO io) {
     super(
         new PIDController(0, 0, 0),
-        () -> io.limelight.getTargetData().horizontalOffset,
+        () -> io.limelight.targetData().horizontalOffset,
         () -> 0, // TODO: replace with actual target offset
         output -> {
           io.chassis.drive(new ChassisSpeeds(0, output * AimbotSpeed * Constants.DRIVE_MAX_VELOCITY_METERS_PER_SECOND, 0));
@@ -32,7 +32,7 @@ public class Aimbot extends PIDCommand {
 
   @Override
   public boolean isFinished() {
-    return Math.abs(getController().getPositionError()) < minimumAdjustment || io.limelight.getTargetData().hasTargets;
+    return Math.abs(getController().getPositionError()) < minimumAdjustment || io.limelight.targetData().hasTargets;
   }
 
   @Override
