@@ -5,6 +5,6 @@ public interface SwerveModule {
     public void resetSteerPosition();
     public double drivePosition();
     public double steerAngle();
-    public double resetAbsolute();
+    public void resetAbsolute();
     public void set(double driveVolts, double targetAngle);
 }

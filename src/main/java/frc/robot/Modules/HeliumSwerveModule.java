@@ -1,14 +1,13 @@
 package frc.robot.Modules;
 
-import com.reduxrobotics.sensors.canandcoder.Canandcoder;
-import com.reduxrobotics.sensors.canandcoder.CanandcoderSettings;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import com.reduxrobotics.sensors.canandcoder.Canandcoder;
+
 
 public class HeliumSwerveModule implements SwerveModule {
     public final CANSparkMax driveMotor;
@@ -29,9 +28,8 @@ public class HeliumSwerveModule implements SwerveModule {
         steerMotor = new CANSparkMax(steerID, MotorType.kBrushless);
         steerEncoder = new Canandcoder(steerCANID);
 
-        CanandcoderSettings settings = new CanandcoderSettings();
+        Canandcoder.Settings settings = new Canandcoder.Settings();
         settings.setInvertDirection(true);
-
         steerEncoder.clearStickyFaults();
         steerEncoder.resetFactoryDefaults(false);
         steerEncoder.setSettings(settings);
@@ -57,14 +55,14 @@ public class HeliumSwerveModule implements SwerveModule {
         steerMotor.getPIDController().setI(0.0);
         steerMotor.getPIDController().setD(1.0);
 
-        steerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 100);
-        steerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
-        steerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 20);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0,100);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1,20);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2,20);
 
         tab.addDouble("Absolute Angle", () -> Math.toDegrees(steerAngle())); 
         tab.addDouble("Current Angle", () -> Math.toDegrees(steerMotor.getEncoder().getPosition()));
         tab.addDouble("Target Angle", () -> Math.toDegrees(desiredAngle));
-        tab.addBoolean("Active", steerEncoder::isPresent);
+        tab.addBoolean("Active", steerEncoder::isConnected);
     }
 
     public void resetDrivePosition() {

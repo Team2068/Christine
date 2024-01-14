@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Utility.IO;
 
 public class IntakeNote extends Command {
 
@@ -12,7 +13,6 @@ public class IntakeNote extends Command {
 
   public IntakeNote(IO io) {
     this.io = io;
-
     addRequirements(io.intake);
   }
 
@@ -20,7 +20,7 @@ public class IntakeNote extends Command {
   public void initialize() {
     io.intake.open();
     io.intake.setSpeed(-0.5);
-    io.flywheel.setPosition(0);
+    io.flywheel.setAngle(0);
   }
 
   @Override

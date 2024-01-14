@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Modules;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -42,11 +42,12 @@ public class KrakenSwerveModule {
         steerEncoder.setSettings(settings);
 
         TalonFXConfiguration configs = new TalonFXConfiguration();
-        driveMotor.getConfigurator().apply(configs);
 
-        steerMotor.setSmartCurrentLimit(20);
         CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
         configs.withCurrentLimits(currentConfigs.withSupplyCurrentLimit(40));//driveMotor.configSupplyCurrentLimit();
+
+        driveMotor.getConfigurator().apply(configs);
+        steerMotor.setSmartCurrentLimit(20);
 
         steerMotor.setIdleMode(IdleMode.kBrake);
         driveMotor.setNeutralMode(NeutralModeValue.Coast);

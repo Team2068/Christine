@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.Consumer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -46,12 +45,9 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("Distance", distance());
 
     updateTargetData(table);
-    if (targetData.hasTargets == false) {
-      SmartDashboard.putNumberArray("TargetPose", (double[]) null);
-    }
-    else {
-      SmartDashboard.putNumberArray("TargetPose", (double[]) tagPose());
-    }
+    
+    if (targetData.hasTargets == false) SmartDashboard.putNumberArray("TargetPose", (double[]) null);
+    else SmartDashboard.putNumberArray("TargetPose", (double[]) tagPose());
   }
 
   private void updateTargetData(NetworkTable table) {

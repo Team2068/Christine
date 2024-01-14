@@ -2,15 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Modules;
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.reduxrobotics.sensors.canandcoder.Canandcoder;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
@@ -44,11 +42,7 @@ public class KrakenV5Module {
         steerEncoder.resetFactoryDefaults(false);
         steerEncoder.setSettings(settings);
 
-        TalonFXConfiguration configs = new TalonFXConfiguration();
-        driveMotor.configAllSettings(configs);
-
-        configs.supplyCurrLimit.currentLimit = 40;
-        configs.supplyCurrLimit.enable = true;        
+        driveMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 0, 0));
 
         steerMotor.setSmartCurrentLimit(20);
 
