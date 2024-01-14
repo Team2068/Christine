@@ -23,6 +23,7 @@ public class IO {
 
     public void configGlobal(){
         chassis.setDefaultCommand(new DefaultDrive(chassis, driveController));
+        flywheel.setDefaultCommand(new Shoot(this));
         
         DriverStation.silenceJoystickConnectionWarning(true);
     }

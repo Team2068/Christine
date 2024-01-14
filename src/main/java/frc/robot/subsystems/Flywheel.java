@@ -21,8 +21,8 @@ public class Flywheel extends SubsystemBase {
     flywheel.set(speed);
   }
 
-  public static double pivotAngle(double tag_height, double tag_distance){
-    return Math.atan(tag_height/tag_distance);
+  public static double pivotAngle(double height, double distance){
+    return Math.atan(height/distance);
   }
 
   public static double RPM(double angle, double distance){
