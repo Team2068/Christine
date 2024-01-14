@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Modules;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -14,6 +14,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class KrakenSwerveModule {
@@ -29,7 +31,7 @@ public class KrakenSwerveModule {
 
     double desiredAngle;
 
-    public KrakenSwerveModule(ShuffleboardTab tab, int driveID, int steerID, int steerEncoderID) {
+    public KrakenSwerveModule(ShuffleboardLayout tab, int driveID, int steerID, int steerEncoderID, double offset) {
         driveMotor = new TalonFX(driveID);
         steerMotor = new CANSparkMax(steerID, MotorType.kBrushless);
         steerEncoder = new Canandcoder(steerEncoderID);
