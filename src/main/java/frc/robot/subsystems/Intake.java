@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -16,7 +15,7 @@ public class Intake extends SubsystemBase {
    public CANSparkMax intake = new CANSparkMax(0, MotorType.kBrushless); // TODO: Replace ID
    public DigitalInput beam_break = new DigitalInput(0); // TODO: Replace ID
 
-  public Intake() { }
+  public Intake() {}
  
   public void open(){
     pivot.setPosition(0);
