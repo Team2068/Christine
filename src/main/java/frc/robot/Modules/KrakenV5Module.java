@@ -32,7 +32,7 @@ public class KrakenV5Module {
 
     double desiredAngle;
 
-    public KrakenV5Module(ShuffleboardTab tab, int driveID, int steerID, int steerEncoderID) {
+    public KrakenV5Module(ShuffleboardTab tab, int driveID, int steerID, int steerEncoderID, double offset) {
         driveMotor = new TalonFX(driveID);
         steerMotor = new CANSparkMax(steerID, MotorType.kBrushless);
         steerEncoder = new Canandcoder(steerEncoderID);
