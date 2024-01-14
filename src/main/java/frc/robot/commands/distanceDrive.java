@@ -10,11 +10,13 @@ import frc.robot.Utility.IO;
 
 public class distanceDrive extends Command {
   IO io;
+  double distance;
 
   /** Creates a new distanceDrive. */
-  public distanceDrive(IO io) {
+  public distanceDrive(IO io, double distance) {
     this.io = io;
     addRequirements(io.chassis, io.limelight);
+    this.distance = distance;
   }
 
   // Called when the command is initially scheduled.
@@ -38,6 +40,6 @@ public class distanceDrive extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return io.limelight.distance() < 2; //replace 2 later
+    return io.limelight.distance() < distance;
   }
 }

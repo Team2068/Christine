@@ -20,6 +20,7 @@ public class climbingsequence extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(()->io.hang.setHeight(3)),
       new Aimbot(io),
+      new distanceDrive(io, 0), // note change 0 later
       new InstantCommand(()->io.hang.setHeight(0))
     );
   }
