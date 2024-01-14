@@ -37,6 +37,6 @@ public class Shoot extends Command {
 
   @Override
   public boolean isFinished() {
-    return !io.intake.loaded() || !io.limelight.targetData().hasTargets;
+    return !io.intake.loaded() || io.limelight.tagID() != 4 || io.limelight.tagID() != 7 || io.limelight.tagID() == -1;
   }
 }

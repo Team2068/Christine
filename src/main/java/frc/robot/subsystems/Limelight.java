@@ -123,6 +123,22 @@ public class Limelight extends SubsystemBase {
   }
 
   public double[] tagPose(){
-    return table.getEntry("targetpose_robotspace").getDoubleArray( (double[]) null);
+    switch(tagID()){
+      default:
+      return table.getEntry("targetpose_robotspace").getDoubleArray( (double[]) null);
+      
+      case 4,3: // Red Alliance
+      return new double[]{0,0,0, 0,0,0}; // PLACEHOLDER
+
+      case 7,8: // Blue Alliance
+      return new double[]{0,0,0, 0,0,0}; // PLACEHOLDER
+
+      case 5: // Red Alliance
+      return new double[]{0,0,0, 0,0,0}; // PLACEHOLDER
+
+      case 6: // Blue Alliance
+      return new double[]{0,0,0, 0,0,0}; // PLACEHOLDER
+
+    }
   }
 }
