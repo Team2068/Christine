@@ -4,12 +4,17 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Utility.IO;
 
 public class distanceDrive extends Command {
+  IO io;
+
   /** Creates a new distanceDrive. */
-  public distanceDrive() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public distanceDrive(IO io) {
+    this.io = io;
+    addRequirements(io.chassis, io.limelight);
   }
 
   // Called when the command is initially scheduled.
@@ -21,18 +26,18 @@ public class distanceDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    io.chassis.drive(new ChassisSpeeds(0, 0.5, 0));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    io.chassis.drive(new ChassisSpeeds(0, 0, 0));
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return io.limelight.distance() < 2; //replace 2 later
   }
 }
