@@ -65,7 +65,7 @@ public class Limelight extends SubsystemBase {
 
   // It's very inaccurate of objects that are same height as the robot
   public double distance() {
-    TargetData targetData = getTargetData();
+    TargetData targetData = targetData();
     double a2 = targetData.verticalOffset;
     double a1 = LIMELIGHT_ANGLE;
     double h1 = LIMELIGHT_HEIGHT;
@@ -78,7 +78,7 @@ public class Limelight extends SubsystemBase {
     return Math.abs(dist);
   }
 
-  public TargetData getTargetData() {
+  public TargetData targetData() {
     return targetData;
   }
 
