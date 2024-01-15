@@ -20,7 +20,9 @@ public class RobotContainer {
     io.configTeleop();
   }
 
+  public void addAutos(){}
+
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return autos.getSelected();
   }
 }
