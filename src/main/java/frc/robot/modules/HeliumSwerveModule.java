@@ -1,4 +1,4 @@
-package frc.robot.Modules;
+package frc.robot.modules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -83,6 +83,11 @@ public class HeliumSwerveModule implements SwerveModule {
 
     public double steerAngle(){
         return (steerEncoder.getAbsPosition() * PI2) % PI2;
+    }
+
+    public void stop(){
+        driveMotor.stopMotor();
+        steerMotor.stopMotor();
     }
 
     public void set(double driveVolts, double targetAngle){

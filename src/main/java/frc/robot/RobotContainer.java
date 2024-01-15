@@ -7,11 +7,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Utility.IO;
+import frc.robot.utility.IO;
 
 public class RobotContainer {
   SendableChooser<Runnable> bindings = new SendableChooser<Runnable>();
-  public IO io = new IO(bindings);
+  SendableChooser<Command> autos = new SendableChooser<Command>();
+
+  public IO io = new IO(bindings, autos);
 
   public RobotContainer() {
     io.configGlobal();

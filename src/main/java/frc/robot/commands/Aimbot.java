@@ -6,9 +6,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.utility.Constants;
+import frc.robot.utility.IO;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import frc.robot.Utility.Constants;
-import frc.robot.Utility.IO;
 
 public class Aimbot extends PIDCommand {
   

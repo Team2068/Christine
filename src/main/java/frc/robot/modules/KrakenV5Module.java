@@ -2,12 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Modules;
+package frc.robot.modules;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.reduxrobotics.sensors.canandcoder.Canandcoder;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
@@ -18,7 +19,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-public class KrakenSwerveModule {
+public class KrakenV5Module {
     public TalonFX driveMotor;
     public CANSparkMax steerMotor;
     public Canandcoder steerEncoder;
@@ -31,7 +32,7 @@ public class KrakenSwerveModule {
 
     double desiredAngle;
 
-    public KrakenSwerveModule(ShuffleboardLayout tab, int driveID, int steerID, int steerEncoderID, double offset) {
+    public KrakenV5Module(ShuffleboardLayout tab, int driveID, int steerID, int steerEncoderID, double offset) {
         driveMotor = new TalonFX(driveID);
         steerMotor = new CANSparkMax(steerID, MotorType.kBrushless);
         steerEncoder = new Canandcoder(steerEncoderID);
@@ -43,16 +44,12 @@ public class KrakenSwerveModule {
         steerEncoder.resetFactoryDefaults(false);
         steerEncoder.setSettings(settings);
 
-        TalonFXConfiguration configs = new TalonFXConfiguration();
+        driveMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 0, 0));
 
-        CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
-        configs.withCurrentLimits(currentConfigs.withSupplyCurrentLimit(40));//driveMotor.configSupplyCurrentLimit();
-
-        driveMotor.getConfigurator().apply(configs);
         steerMotor.setSmartCurrentLimit(20);
 
         steerMotor.setIdleMode(IdleMode.kBrake);
-        driveMotor.setNeutralMode(NeutralModeValue.Coast);
+        driveMotor.setNeutralMode(NeutralMode.Coast);
 
         //drive motor positoin velocity conversion factors
 
@@ -63,7 +60,8 @@ public class KrakenSwerveModule {
         driveMotor.setInverted(true);
         steerMotor.setInverted(false);
 
-        //driveMotor.setControl(new VoltageOut(12));
+        driveMotor.configVoltageCompSaturation(12);
+        driveMotor.enableVoltageCompensation(true);
 
         steerMotor.getPIDController().setP(0.1);
         steerMotor.getPIDController().setI(0);
@@ -80,11 +78,11 @@ public class KrakenSwerveModule {
     
     }
         public void resetDrivePosition() {
-            driveMotor.setPosition(0.0);
+            driveMotor.setSelectedSensorPosition(0.0);
         }
 
         public void resetSteerPosition() {
-            driveMotor.setPosition(steerAngle());
+            driveMotor.setSelectedSensorPosition(steerAngle());
         }
 
         public void resetAbsolute() {
@@ -92,7 +90,7 @@ public class KrakenSwerveModule {
         }
 
         public double drivePosition() {
-            return driveMotor.getPosition().getValueAsDouble();
+            return driveMotor.getSelectedSensorPosition();
         }
 
         public double steerAngle() {
@@ -114,7 +112,7 @@ public class KrakenSwerveModule {
                 driveVolts *= -1;
             }
 
-            driveMotor.setVoltage(driveVolts);
+            driveMotor.set(ControlMode.PercentOutput, driveVolts);
             steerMotor.getPIDController().setReference(targetAngle, ControlType.kPosition);
         }
     
