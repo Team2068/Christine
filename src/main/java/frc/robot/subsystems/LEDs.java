@@ -21,11 +21,10 @@ public class LEDs extends SubsystemBase {
 
   public void bootLed() {
     for (int i = 0; i < ledBuffer.getLength(); i++) {
-      if (i % 2 == 0) {
-        ledBuffer.setRGB(i, 0, 0, 255);
-      } else {
-        ledBuffer.setRGB(i, 255, 247, 0);
-      }
+      if (i % 2 == 0)
+        ledBuffer.setRGB(i, 0, 0, 255); // Blue
+      else
+        ledBuffer.setRGB(i, 255, 247, 0); // Yellow
     }
   }
 

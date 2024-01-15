@@ -12,32 +12,25 @@ public class DistanceDrive extends Command {
   IO io;
   double distance;
 
-  /** Creates a new distanceDrive. */
   public DistanceDrive(IO io, double distance) {
     this.io = io;
-    addRequirements(io.chassis, io.limelight);
     this.distance = distance;
+    addRequirements(io.chassis, io.limelight);
   }
 
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    
-  }
+  public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     io.chassis.drive(new ChassisSpeeds(0, 0.5, 0));
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     io.chassis.drive(new ChassisSpeeds(0, 0, 0));
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return io.limelight.distance() < distance;

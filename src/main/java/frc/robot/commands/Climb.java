@@ -12,10 +12,10 @@ public class Climb extends SequentialCommandGroup {
 
   public Climb(IO io) {
     addCommands(
-      new InstantCommand(()->io.hang.setHeight(3)),
+      new InstantCommand((io.hang::raise)),
       new Aimbot(io),
-      new DistanceDrive(io, 0), // note change 0 later
-      new InstantCommand(()->io.hang.setHeight(0))
+      new DistanceDrive(io, 0), // TODO: PLACEHOLDER
+      new InstantCommand((io.hang::lower))
     );
   }
 }

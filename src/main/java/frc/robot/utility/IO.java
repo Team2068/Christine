@@ -16,6 +16,7 @@ public class IO {
     public final Flywheel flywheel = new Flywheel();
     public final Intake intake = new Intake();
     public final Hang hang = new Hang();
+    public final LEDs leds = new LEDs();
 
     SendableChooser<Command> autoSelector;
 
@@ -64,8 +65,8 @@ public class IO {
         mechController.b().onTrue(new InstantCommand(intake::toggle));
         mechController.x().onTrue(new Shoot(this, limelight.tagPose()[1], limelight.distance()));
 
-        mechController.leftBumper().onTrue(new InstantCommand(() -> hang.setHeight(3)));
-        mechController.rightBumper().onTrue(new InstantCommand(() -> hang.setHeight(0)));
+        mechController.leftBumper().onTrue(new InstantCommand(hang::raise));
+        mechController.rightBumper().onTrue(new InstantCommand(hang::lower));
     }
 
     public void configTesting(){
@@ -85,8 +86,8 @@ public class IO {
         driveController.povUpRight().onTrue(systemsCheck());
     }
 
-    public Command systemsCheck(){
-        return new SequentialCommandGroup( // Intake to shooting Test
+    public Command systemsCheck(){ // Intake to shooting Test
+        return new SequentialCommandGroup(
             new InstantCommand(intake::open, intake),
             new InstantCommand(() -> intake.setSpeed(-0.5), intake),
             new InstantCommand(() -> flywheel.setAngle(45), flywheel),

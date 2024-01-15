@@ -10,8 +10,8 @@ import com.ctre.phoenix6.controls.Follower;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hang extends SubsystemBase {
-  public TalonFX hang1 = new TalonFX(3); // TODO: Replace ID
-  public TalonFX hang2 = new TalonFX(4); // TODO: Replace ID
+  public TalonFX hang1 = new TalonFX(3); // TODO: PLACEHOLDER
+  public TalonFX hang2 = new TalonFX(4); // TODO: PLACEHOLDER
 
   public Hang() {
     hang2.setControl(new Follower(1, false)); //TODO: Replace by Hang 1 ID
@@ -19,6 +19,13 @@ public class Hang extends SubsystemBase {
 
   public void setHeight(double pos) {
     hang1.setPosition(pos);
+  }
+
+  public void raise(){
+    hang1.setPosition(3); // TODO: PLACEHOLDER
+  }
+  public void lower(){
+    hang1.setPosition(0);
   }
 
   @Override
