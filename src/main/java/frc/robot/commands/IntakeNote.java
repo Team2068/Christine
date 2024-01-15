@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Utility.IO;
+import frc.robot.utility.IO;
 
 public class IntakeNote extends Command {
 

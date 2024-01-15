@@ -6,14 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Utility.IO;
+import frc.robot.utility.IO;
 
-public class distanceDrive extends Command {
+public class DistanceDrive extends Command {
   IO io;
   double distance;
 
   /** Creates a new distanceDrive. */
-  public distanceDrive(IO io, double distance) {
+  public DistanceDrive(IO io, double distance) {
     this.io = io;
     addRequirements(io.chassis, io.limelight);
     this.distance = distance;

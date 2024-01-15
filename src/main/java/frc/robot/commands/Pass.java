@@ -8,27 +8,27 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
 import frc.robot.utility.IO;
 
-public class Shoot extends Command {
+public class Pass extends Command {
   IO io;
-  double distance;
-  double target_height;
 
-  public Shoot(IO io, double target_height, double distance) {
+  public Pass(IO io) {
     this.io = io;
-    this.distance = distance;
-    this.target_height = target_height;
     addRequirements(io.limelight, io.intake, io.flywheel);
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+  }
 
   @Override
   public void execute() {
-    double height = target_height - Flywheel.height;
+    double distance = io.limelight.distance();
+    double height = io.limelight.tagPose()[1] - Flywheel.height;
     double angle = Flywheel.pivotAngle(height,distance);
     io.flywheel.setAngle(angle);
-    if (distance < 7) io.flywheel.setSpeed(Flywheel.RPM(angle, distance)); // NOTE: 7 (metres) is a placeholder 
+    if (distance < 7) // NOTE: 7 (metres) is a placeholder 
+      io.flywheel.setSpeed(Flywheel.RPM(angle, distance));
   }
 
   @Override
@@ -39,6 +39,6 @@ public class Shoot extends Command {
 
   @Override
   public boolean isFinished() {
-    return !io.intake.loaded() || io.limelight.tagID() != 4 || io.limelight.tagID() != 7 || io.limelight.tagID() == -1;
+    return !io.intake.loaded() || io.limelight.tagID() == -1;
   }
 }
