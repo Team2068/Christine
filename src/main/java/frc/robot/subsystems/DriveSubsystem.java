@@ -25,9 +25,9 @@ public class DriveSubsystem extends SubsystemBase {
     public int drive_mode = 0;
 
     
-    public static final int Field_Oriented = 1;
-    public static final int Fixed_Point_Tracking = 2;
-    public static final int Fixed_Alignment = 3;
+    public final int Field_Oriented = 1;
+    public final int Fixed_Point_Tracking = 2;
+    public final int Fixed_Alignment = 3;
 
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 3;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
