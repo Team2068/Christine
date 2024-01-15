@@ -20,6 +20,10 @@ public class Flywheel extends SubsystemBase {
     flywheel.set(speed);
   }
 
+  public void stop(){
+    flywheel.stopMotor();
+  }
+
   public static double pivotAngle(double height, double distance){
     return Math.atan(height/distance);
   }

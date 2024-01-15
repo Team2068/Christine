@@ -2,8 +2,7 @@ package frc.robot.utility;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -83,7 +82,24 @@ public class IO {
         driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
         driveController.povUpLeft().onTrue(new InstantCommand(chassis::disableChassis));
         driveController.povDownRight().onTrue(new InstantCommand(chassis::activeChassis));
+        driveController.povUpRight().onTrue(systemsCheck());
     }
 
-    // TODO: Create A System's check command to put in testing
+    public Command systemsCheck(){
+        return new SequentialCommandGroup( // Intake to shooting Test
+            new InstantCommand(intake::open, intake),
+            new InstantCommand(() -> intake.setSpeed(-0.5), intake),
+            new InstantCommand(() -> flywheel.setAngle(45), flywheel),
+            new WaitCommand(1),
+
+            new InstantCommand(intake::close, intake),
+            new InstantCommand(() -> intake.setSpeed(1), intake),
+            new InstantCommand(() -> flywheel.setSpeed(0.1), flywheel),
+            new WaitCommand(0.5),
+            
+            new InstantCommand(flywheel::stop, flywheel),
+            new InstantCommand(() -> flywheel.setAngle(0), flywheel),
+            new InstantCommand(intake::stop, intake)
+        );
+    }
 }
