@@ -29,12 +29,13 @@ public class IO {
 
     public void configGlobal(){
         chassis.setDefaultCommand(new DefaultDrive(chassis, driveController));
-        flywheel.setDefaultCommand(new Shoot(this, limelight.tagPose()[1], limelight.distance()));
         
         DriverStation.silenceJoystickConnectionWarning(true);
     }
 
     public void configTeleop(){
+        flywheel.setDefaultCommand(new Shoot(this, limelight.tagPose()[1], limelight.distance()));
+
         driveController.a().onTrue(new InstantCommand(chassis::resetOdometry));
         driveController.b().onTrue(new InstantCommand(chassis::toggleSlowMode));
         driveController.x().onTrue(new InstantCommand(chassis::syncEncoders));
@@ -44,10 +45,10 @@ public class IO {
         driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Point_Tracking));
         driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Alignment));
 
-        mechController.a().onTrue(new Aimbot(this));
+        mechController.a().toggleOnTrue(new Aimbot(this));
         mechController.b().onTrue(new InstantCommand(intake::toggle));
         mechController.x().onTrue(new Shoot(this, 0, 0)); // REPLACE TARGET HEIGHT
-        mechController.y().onTrue(new Climb(this));
+        mechController.y().toggleOnTrue(new Climb(this));
     }
 
     public void configManual(){
@@ -60,10 +61,12 @@ public class IO {
         driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Point_Tracking));
         driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Alignment));
 
-        mechController.a().onTrue(null);
-        mechController.b().onTrue(null);
-        mechController.x().onTrue(null);
-        mechController.y().onTrue(null);
+        mechController.a().toggleOnTrue(new Aimbot(this));
+        mechController.b().onTrue(new InstantCommand(intake::toggle));
+        mechController.x().onTrue(new Shoot(this, limelight.tagPose()[1], limelight.distance()));
+
+        mechController.leftBumper().onTrue(new InstantCommand(() -> hang.setHeight(3)));
+        mechController.rightBumper().onTrue(new InstantCommand(() -> hang.setHeight(0)));
     }
 
     public void configTesting(){
