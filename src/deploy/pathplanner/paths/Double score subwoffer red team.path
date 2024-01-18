@@ -3,41 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.536764705883662,
-        "y": 2.8591120976676048
+        "x": 15.602244122951907,
+        "y": 6.626953481918842
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.614317425084552,
-        "y": 2.853146503882921
+        "x": 15.585728556567409,
+        "y": 7.025798486991401
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.910377358491877,
-        "y": 2.184999999998348
+        "x": 14.713626391866756,
+        "y": 7.468610987126086
       },
       "prevControl": {
-        "x": 8.324116125433711,
-        "y": 2.184999999998348
+        "x": 14.709449038436398,
+        "y": 7.866866089812938
       },
       "nextControl": {
-        "x": 7.886514983353141,
-        "y": 2.184999999998348
+        "x": 14.717803745297113,
+        "y": 7.070355884439233
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.536764705883662,
-        "y": 2.8591120976676048
+        "x": 13.908195241358667,
+        "y": 6.450873783791191
       },
       "prevControl": {
-        "x": 8.852941176471896,
-        "y": 2.8352497225288706
+        "x": 11.649695898636729,
+        "y": 6.806542331224177
+      },
+      "nextControl": {
+        "x": 14.396130527007237,
+        "y": 6.374033719680845
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 14.713626391866756,
+        "y": 7.468610987126086
+      },
+      "prevControl": {
+        "x": 14.716000171536542,
+        "y": 7.861017936711708
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,7 +65,7 @@
   "eventMarkers": [
     {
       "name": "Score",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.85,
       "command": {
         "type": "parallel",
         "data": {
@@ -59,7 +75,7 @@
     },
     {
       "name": "Pickup",
-      "waypointRelativePos": 0.9,
+      "waypointRelativePos": 1.2000000000000002,
       "command": {
         "type": "parallel",
         "data": {
@@ -69,7 +85,7 @@
     },
     {
       "name": "Score",
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 3.0,
       "command": {
         "type": "parallel",
         "data": {
