@@ -12,6 +12,7 @@ public class RobotContainer {
   public IO io;
 
   public RobotContainer() {
+    NamedCommands.registerCommand("Pickup", new Pickup());
     io.configGlobal();
     io.configTeleop();
   }
