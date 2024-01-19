@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight extends SubsystemBase {
     
-  public final static double LIMELIGHT_HEIGHT = 0; // TODO: Measure and note heigh in cm
+  public final static double LIMELIGHT_HEIGHT = 0; // TODO: Measure and note height in cm
   public final static double LIMELIGHT_ANGLE = 0; // TODO: Measure and note the angle in degrees
 
-  public Limelight() { // Methods are undefined for type limelight
+  public Limelight() {
     setLedMode(0);
     setStreamMode(0);
   }
@@ -46,8 +46,7 @@ public class Limelight extends SubsystemBase {
 
     updateTargetData(table);
     
-    if (targetData.hasTargets == false) SmartDashboard.putNumberArray("TargetPose", (double[]) null);
-    else SmartDashboard.putNumberArray("TargetPose", (double[]) tagPose());
+    SmartDashboard.putNumberArray("TargetPose", tagPose());
   }
 
   private void updateTargetData(NetworkTable table) {
@@ -64,7 +63,7 @@ public class Limelight extends SubsystemBase {
   }
 
   // It's very inaccurate of objects that are same height as the robot
-  public double distance() {
+  public double distance() { // NOTE: Maybe make this a bit more general purpose so we can find the distane from an arbitrary point, instead of specifically a Limelight Target
     TargetData targetData = targetData();
     double a2 = targetData.verticalOffset;
     double a1 = LIMELIGHT_ANGLE;
@@ -115,7 +114,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public double[] botpose() {
-    return table.getEntry("stream").getDoubleArray( (double[]) null);
+    return table.getEntry("stream").getDoubleArray(new double[] {-1,-1,-1, -1,-1,-1});
   }
 
   public int tagID() {
@@ -125,7 +124,7 @@ public class Limelight extends SubsystemBase {
   public double[] tagPose(){
     switch(tagID()){
       default:
-      return table.getEntry("targetpose_robotspace").getDoubleArray( (double[]) null);
+      return table.getEntry("targetpose_robotspace").getDoubleArray( new double[] {-1,-1,-1, -1,-1,-1}); // TODO: Check if it returns [X,Y,Z,Roll,Pitch,Yaw]
       
       case 4,3: // Red Alliance
       return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER

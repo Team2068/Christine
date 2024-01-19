@@ -13,8 +13,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import java.util.function.DoubleSupplier;
 
 public class DefaultDrive extends Command {
-    private final DriveSubsystem chassis;
 
+    private final DriveSubsystem chassis;
     private final DoubleSupplier x_supplier;
     private final DoubleSupplier y_supplier;
     private final DoubleSupplier rotation_supplier;

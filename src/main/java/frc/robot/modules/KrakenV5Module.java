@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 import com.reduxrobotics.sensors.canandcoder.Canandcoder;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
@@ -17,16 +18,13 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import frc.robot.utility.Constants.DriveConstants;
 
 public class KrakenV5Module {
     public TalonFX driveMotor;
     public CANSparkMax steerMotor;
     public Canandcoder steerEncoder;
 
-    final double WHEEL_DIAMETER = 0.10033; // Meters
-    final double DRIVE_REDUCTION = (15.0 / 32.0) * (10.0 / 60.0);
-    final double STEER_REDUCTION = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0);
-    final double DRIVE_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER * DRIVE_REDUCTION;
     final double PI2 = 2 * Math.PI;
 
     double desiredAngle;
@@ -50,10 +48,10 @@ public class KrakenV5Module {
         steerMotor.setIdleMode(IdleMode.kBrake);
         driveMotor.setNeutralMode(NeutralMode.Coast);
 
-        //drive motor positoin velocity conversion factors
+        // NOTE: drive motor positoin velocity conversion factor is Missing
 
-        steerMotor.getEncoder().setPositionConversionFactor(Math.PI * STEER_REDUCTION);
-        steerMotor.getEncoder().setVelocityConversionFactor(Math.PI * STEER_REDUCTION / 60);
+        steerMotor.getEncoder().setPositionConversionFactor(Math.PI * DriveConstants.STEER_REDUCTION);
+        steerMotor.getEncoder().setVelocityConversionFactor(Math.PI * DriveConstants.STEER_REDUCTION / 60);
         steerMotor.getEncoder().setPosition(steerAngle());
         
         driveMotor.setInverted(true);

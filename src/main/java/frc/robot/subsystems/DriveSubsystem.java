@@ -21,13 +21,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class DriveSubsystem extends SubsystemBase {
+    
     public static double MAX_VOLTAGE = 5;
     public int drive_mode = 0;
-
-    
-    public final int Field_Oriented = 1;
-    public final int Fixed_Point_Tracking = 2;
-    public final int Fixed_Alignment = 3;
 
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 3;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
@@ -57,8 +53,6 @@ public class DriveSubsystem extends SubsystemBase {
     private boolean slowMode = false;
 
     private boolean active = true;
-
-    // SwerveAutoBuilder autoBuilder;
 
     public DriveSubsystem() {
         DriveConstants.setOffsets();
@@ -97,8 +91,6 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.BACK_RIGHT_ENCODER_OFFSET);
 
         odometry = new SwerveDriveOdometry(kinematics, rotation(), getModulePositions(), new Pose2d(0, 0, new Rotation2d()));
-
-        // autoBuilder = new SwerveAutoBuilder(this::getPose, this::resetOdometry, new PIDConstants(AutoConstants.kPXController, 0, 0.01), new PIDConstants(AutoConstants.kPThetaController, 0, 0.01), this::drive, Paths.eventMap, true, this);
 
         zeroGyro();
     }
@@ -221,22 +213,6 @@ public class DriveSubsystem extends SubsystemBase {
         backLeftModule.stop();
         backRightModule.stop();
     }
-
-    // public Command followPath(PathPlannerTrajectory path) {
-    //     return autoBuilder.followPath(path).beforeStarting(() -> resetOdometry(PathPlannerTrajectory.transformTrajectoryForAlliance(path, DriverStation.getAlliance()).getInitialHolonomicPose()));
-    // }
-
-    // public Command followPathWithEvents(PathPlannerTrajectory path) {
-    //     return autoBuilder.followPathWithEvents(path).beforeStarting(() -> resetOdometry(PathPlannerTrajectory.transformTrajectoryForAlliance(path, DriverStation.getAlliance()).getInitialHolonomicPose()));
-    // }
-
-    // public Command followPathGroupWithEvents(List<PathPlannerTrajectory> path) {
-    //     return autoBuilder.fullAuto(path).beforeStarting(() -> resetOdometry(PathPlannerTrajectory.transformTrajectoryForAlliance(path.get(0), DriverStation.getAlliance()).getInitialHolonomicPose()));
-    // }
-
-    // public Command followPathGroup(List<PathPlannerTrajectory> path) {
-    //     return autoBuilder.followPathGroupWithEvents(path);
-    // }
 
     public void periodic() {
         if (active) setModuleStates(kinematics.toSwerveModuleStates(chassisSpeeds));

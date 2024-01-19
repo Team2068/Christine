@@ -29,7 +29,7 @@ public class Flywheel extends SubsystemBase {
   }
 
   public static double RPM(double angle, double distance){
-    double radius = 1; // TODO: find radius for the flywheel
+    double radius = 1; // TODO: PLACEHOLDER
     double conversion_factor = 60/(2*Math.PI*radius);
     double raw_rpm = conversion_factor * Math.sqrt(distance * -9.8 * Math.sin(2*angle)); // NOTE: 9.8 could be negative or positive, idk
     return Math.max(0,Math.min(6000.0, raw_rpm))/6000;

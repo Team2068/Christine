@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.utility.Constants.DriveConstants;
 
 public class IO {
     final CommandXboxController driveController = new CommandXboxController(0);
@@ -41,9 +42,9 @@ public class IO {
         driveController.x().onTrue(new InstantCommand(chassis::syncEncoders));
 
         driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
-        driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Field_Oriented));
-        driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Point_Tracking));
-        driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Alignment));
+        driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
+        driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Point_Tracking));
+        driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Alignment));
 
         mechController.a().toggleOnTrue(new Aimbot(this));
         mechController.b().onTrue(new InstantCommand(intake::toggle));
@@ -57,9 +58,9 @@ public class IO {
         driveController.x().onTrue(new InstantCommand(chassis::syncEncoders));
 
         driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
-        driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Field_Oriented));
-        driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Point_Tracking));
-        driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Alignment));
+        driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
+        driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Point_Tracking));
+        driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Alignment));
 
         mechController.a().toggleOnTrue(new Aimbot(this));
         mechController.b().onTrue(new InstantCommand(intake::toggle));
@@ -76,9 +77,9 @@ public class IO {
         driveController.y().onTrue(autoSelector.getSelected());
 
         driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
-        driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Field_Oriented));
-        driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Point_Tracking));
-        driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = chassis.Fixed_Alignment));
+        driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
+        driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Point_Tracking));
+        driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Alignment));
 
         driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
         driveController.povUpLeft().onTrue(new InstantCommand(chassis::disableChassis));
