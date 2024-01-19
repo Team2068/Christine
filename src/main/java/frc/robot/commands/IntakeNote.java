@@ -13,7 +13,7 @@ public class IntakeNote extends Command {
 
   public IntakeNote(IO io) {
     this.io = io;
-    addRequirements(io.intake);
+    addRequirements(io.intake, io.flywheel);
   }
 
   @Override

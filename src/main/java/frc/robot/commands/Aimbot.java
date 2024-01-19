@@ -12,20 +12,20 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class Aimbot extends PIDCommand {
   
-  // TODO: REPLACE ALL THESE PLACEHOLDER VALUES
-  public static double AIMBOT_OFFSET_FORWARD = 5.67;
-  public static double AIMBOT_OFFSET_BACKWARD = -11.13;
-  public static double AimbotSpeed = 123456;
-  public static double minimumAdjustment = 2.5;
+  public static double AIMBOT_OFFSET_FORWARD = 5.67; // TODO: PLACEHOLDER
+  public static double AIMBOT_OFFSET_BACKWARD = -11.13; // TODO: PLACEHOLDER
+  public static double AimbotSpeed = 123456; // TODO: PLACEHOLDER
+  public static double minimumAdjustment = 2.5; // TODO: PLACEHOLDER
+
   IO io;
 
   public Aimbot(IO io) {
     super(
-        new PIDController(0, 0, 0),
+        new PIDController(0, 0, 0), // TODO: PLACEHOLDER
         () -> io.limelight.targetData().horizontalOffset,
-        () -> 0, // TODO: replace with actual target offset
+        () -> 0, // TODO: PLACEHOLDER
         output -> {
-          io.chassis.drive(new ChassisSpeeds(0, output * AimbotSpeed * Constants.DRIVE_MAX_VELOCITY_METERS_PER_SECOND, 0));
+          io.chassis.drive(new ChassisSpeeds(0, 0, output * AimbotSpeed * Constants.DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
         });
         addRequirements(io.chassis, io.limelight);
   }

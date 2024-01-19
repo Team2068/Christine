@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
   public Intake() {}
  
   public void open(){
-    pivot.setPosition(0); // PLACEHOLDER
+    pivot.setPosition(0); // TODO: PLACEHOLDER
     intakeOpen = true;
   }
 

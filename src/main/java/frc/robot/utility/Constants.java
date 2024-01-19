@@ -14,8 +14,6 @@ public final class Constants {
   public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 0.2;
   public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0.2;
 
-  public static int CURRENT_LIMIT = 30;
-
   public static final class DriveConstants {
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(19.5);
     public static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(21.5);
@@ -42,6 +40,15 @@ public final class Constants {
 
     public static final int PIGEON_ID = 19;
 
+    public static final double WHEEL_DIAMETER = 0.10033; // Metres
+    public static final double DRIVE_REDUCTION = (15.0 / 32.0) * (10.0 / 60.0);
+    public static final double STEER_REDUCTION = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0);
+    public static final double DRIVE_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER * DRIVE_REDUCTION;
+
+    public static final int Field_Oriented = 1;
+    public static final int Fixed_Point_Tracking = 2;
+    public static final int Fixed_Alignment = 3;
+    
     public static final void setOffsets() {
         FRONT_LEFT_ENCODER_OFFSET = -297;
         FRONT_RIGHT_ENCODER_OFFSET = -100;
@@ -65,20 +72,5 @@ public final class Constants {
   public static class Paths {
     public static final HashMap<String, Command> eventMap = new HashMap<String, Command>();
     // public static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(4, 3);
-  }
-
-  public static class GameConstants {
-    public static final double[][] TAG_ARRAY = {
-      {1551.35, 107.16, 46.27, 180.0}, 
-      {1551.35, 274.80, 46.27, 180.0}, 
-      {1551.35, 442.44, 46.27, 180.0}, 
-      {1617.87, 674.97, 69.54, 180.0}, 
-      {36.19, 674.97, 69.54, 0.0}, 
-      {102.743, 442.44, 46.27, 0.0}, 
-      {102.743, 274.80, 46.27, 0.0}, 
-      {102.743, 107.16, 46.27, 0.0}};
-    public static final double APRILTAG_HEIGHT = Units.inchesToMeters(17.5); // CM
-    public static final double REFLTAPE_HEIGHT_LOWER = 0.6096; //meters
-    public static final double REFLTAPE_HEIGHT_UPPER = 1.0668; //meters
   }
 }
