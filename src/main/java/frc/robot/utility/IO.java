@@ -23,7 +23,7 @@ public class IO {
 
     public IO(SendableChooser<Runnable> bindings, SendableChooser<Command> selector){
         bindings.setDefaultOption("Teleop Automated", this::configTeleop);
-        bindings.setDefaultOption("Teleop Manual", this::configManual);
+        bindings.addOption("Teleop Manual", this::configManual);
         bindings.addOption("Testing", this::configTesting);
         autoSelector = selector;
     }
