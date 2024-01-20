@@ -1,0 +1,96 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.2842250978464949,
+        "y": 5.465347971380155
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.0232715821236227,
+        "y": 5.485993846373475
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.6625021636240602,
+        "y": 3.4274465053631755
+      },
+      "prevControl": {
+        "x": 4.971547250152028,
+        "y": 3.3210479994994517
+      },
+      "nextControl": {
+        "x": 0.8148287310122779,
+        "y": 3.4547024611848296
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.2842250978464949,
+        "y": 5.465347971380155
+      },
+      "prevControl": {
+        "x": 0.8739251038337523,
+        "y": 5.485078172768762
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Score",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Pickup",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Score",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 16.0,
+    "maxAcceleration": 6.0,
+    "maxAngularVelocity": 16.0,
+    "maxAngularAcceleration": 6.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}
