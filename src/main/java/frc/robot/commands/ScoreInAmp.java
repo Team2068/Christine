@@ -6,11 +6,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Flywheel;
-
-public class Score extends Command {
-  Flywheel flywheel = new Flywheel();
+public class ScoreInAmp extends Command {
+  public Flywheel flywheel = new Flywheel();
   /** Creates a new Score. */
-  public Score() {
+  public ScoreInAmp() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -24,6 +23,7 @@ public class Score extends Command {
     flywheel.open();
     flywheel.pivotAngle(86, 20);
     flywheel.setSpeed(0.6);
+    
   }
 
   // Called once the command ends or is interrupted.
