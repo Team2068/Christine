@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.Consumer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -46,21 +45,9 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("Distance", distance());
 
     updateTargetData(table);
-  }
-
-  // It's very inaccurate of objects that are same height as the robot
-  public double distance() {
-    TargetData targetData = getTargetData();
-    double a2 = targetData.verticalOffset;
-    double a1 = LIMELIGHT_ANGLE;
-    double h1 = LIMELIGHT_HEIGHT;
-    double h2 = tagPose()[1]; // [X,Y,Z,Roll,Pitch,Yaw]
-
-    double result = h2 - h1;
-    double radians = Math.toRadians(a1 + a2);
-    double dist = result / Math.tan(radians);
-
-    return Math.abs(dist);
+    
+    if (targetData.hasTargets == false) SmartDashboard.putNumberArray("TargetPose", (double[]) null);
+    else SmartDashboard.putNumberArray("TargetPose", (double[]) tagPose());
   }
 
   private void updateTargetData(NetworkTable table) {
@@ -76,7 +63,22 @@ public class Limelight extends SubsystemBase {
     targetData.verticalSideLength = table.getEntry("tvert").getDouble(0.0);
   }
 
-  public TargetData getTargetData() {
+  // It's very inaccurate of objects that are same height as the robot
+  public double distance() {
+    TargetData targetData = targetData();
+    double a2 = targetData.verticalOffset;
+    double a1 = LIMELIGHT_ANGLE;
+    double h1 = LIMELIGHT_HEIGHT;
+    double h2 = tagPose()[1]; // [X,Y,Z,Roll,Pitch,Yaw]
+
+    double result = h2 - h1;
+    double radians = Math.toRadians(a1 + a2);
+    double dist = result / Math.tan(radians);
+
+    return Math.abs(dist);
+  }
+
+  public TargetData targetData() {
     return targetData;
   }
 
@@ -121,6 +123,22 @@ public class Limelight extends SubsystemBase {
   }
 
   public double[] tagPose(){
-    return table.getEntry("targetpose_robotspace").getDoubleArray( (double[]) null);
+    switch(tagID()){
+      default:
+      return table.getEntry("targetpose_robotspace").getDoubleArray( (double[]) null);
+      
+      case 4,3: // Red Alliance
+      return new double[]{0,0,0, 0,0,0}; // PLACEHOLDER
+
+      case 7,8: // Blue Alliance
+      return new double[]{0,0,0, 0,0,0}; // PLACEHOLDER
+
+      case 5: // Red Alliance
+      return new double[]{0,0,0, 0,0,0}; // PLACEHOLDER
+
+      case 6: // Blue Alliance
+      return new double[]{0,0,0, 0,0,0}; // PLACEHOLDER
+
+    }
   }
 }

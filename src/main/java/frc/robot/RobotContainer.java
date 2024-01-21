@@ -4,13 +4,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+<<<<<<< HEAD
 import frc.robot.Utility.IO;
 import frc.robot.commands.Pickup;
+=======
+import frc.robot.utility.IO;
+>>>>>>> main
 
 public class RobotContainer {
-  public IO io;
+  SendableChooser<Runnable> bindings = new SendableChooser<Runnable>();
+  SendableChooser<Command> autos = new SendableChooser<Command>();
+
+  public IO io = new IO(bindings, autos);
 
   public RobotContainer() {
     NamedCommands.registerCommand("Pickup", new Pickup());
@@ -18,7 +26,9 @@ public class RobotContainer {
     io.configTeleop();
   }
 
+  public void addAutos(){}
+
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return autos.getSelected();
   }
 }

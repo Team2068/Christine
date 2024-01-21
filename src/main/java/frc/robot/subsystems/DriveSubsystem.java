@@ -10,11 +10,9 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-
-import frc.robot.Utility.Constants.DriveConstants;
-import frc.robot.Modules.HeliumSwerveModule;
-import frc.robot.Modules.SwerveModule;
-
+import frc.robot.modules.HeliumSwerveModule;
+import frc.robot.modules.SwerveModule;
+import frc.robot.utility.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -24,6 +22,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends SubsystemBase {
     public static double MAX_VOLTAGE = 5;
+    public int drive_mode = 0;
+
+    
+    public static final int Field_Oriented = 1;
+    public static final int Fixed_Point_Tracking = 2;
+    public static final int Fixed_Alignment = 3;
 
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 3;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
@@ -50,8 +54,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
 
-    private boolean fieldOriented = false;
     private boolean slowMode = false;
+
+    private boolean active = true;
 
     // SwerveAutoBuilder autoBuilder;
 
@@ -192,16 +197,8 @@ public class DriveSubsystem extends SubsystemBase {
                 states[3].angle.getRadians());
     }
 
-    public boolean isFieldOriented() {
-        return fieldOriented;
-    }
-
     public boolean isSlowMode() {
         return slowMode;
-    }
-
-    public void toggleFieldOriented() {
-        fieldOriented = !fieldOriented;
     }
 
     public void toggleSlowMode() {
@@ -210,6 +207,19 @@ public class DriveSubsystem extends SubsystemBase {
 
     public ChassisSpeeds getChassisSpeeds() {
         return chassisSpeeds;
+    }
+
+    public void activeChassis(){
+        active = true;
+    }
+
+    public void disableChassis(){
+        active = false;
+
+        frontLeftModule.stop();
+        frontRightModule.stop();
+        backLeftModule.stop();
+        backRightModule.stop();
     }
 
     // public Command followPath(PathPlannerTrajectory path) {
@@ -229,7 +239,7 @@ public class DriveSubsystem extends SubsystemBase {
     // }
 
     public void periodic() {
-        setModuleStates(kinematics.toSwerveModuleStates(chassisSpeeds));
+        if (active) setModuleStates(kinematics.toSwerveModuleStates(chassisSpeeds));
         Pose2d pose = odometry.update(rotation(), getModulePositions());
 
         // TODO: Wrap This Into A List, auto-order it too
@@ -242,7 +252,22 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch().getValue());
         SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll().getValue());
 
-        SmartDashboard.putString("Drive Mode", fieldOriented ? "Field" : "Robot");
+        var drive_mode_display = "";
+        switch(drive_mode){
+            case 0: drive_mode_display = "Robot-Oriented";
+            break;
+            
+            case 1: drive_mode_display = "Field-Oriented";
+            break;
+            
+            case 2: drive_mode_display = "Fixed-Point Tracking";
+            break;
+
+            case 3: drive_mode_display = "Fixed Alignment";
+            break;
+        }
+
+        SmartDashboard.putString("Drive Mode", drive_mode_display);
         SmartDashboard.putString("Drive Speed", slowMode ? "Slow" : "Normal");
     }
 }
