@@ -5,6 +5,9 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import com.reduxrobotics.sensors.canandcoder.Canandcoder;
 
@@ -83,6 +86,11 @@ public class HeliumSwerveModule implements SwerveModule {
 
     public double steerAngle(){
         return (steerEncoder.getAbsPosition() * PI2) % PI2;
+    }
+
+    public void driveVolts(double Volts){
+
+        driveMotor.setVoltage(Volts);
     }
 
     public void stop(){
