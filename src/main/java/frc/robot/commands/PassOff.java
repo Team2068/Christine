@@ -17,10 +17,10 @@ public class PassOff extends SequentialCommandGroup {
             new ConditionalCommand(
                     new SequentialCommandGroup(
                             new ToggleIntake(io),
-                            new IntakeNote(io, auton),
+                            new IntakeNote(io),
                             new ToggleIntake(io)),
                     new SequentialCommandGroup(
-                            new IntakeNote(io, auton),
+                            new IntakeNote(io),
                             new ToggleIntake(io)),
                     () -> !io.intake.closed),
             new InstantCommand(io.profiledShoot::stop));
