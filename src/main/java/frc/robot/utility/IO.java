@@ -57,8 +57,12 @@ public class IO extends SubsystemBase {
                         shooter.flywheelVoltage(0);
                         shooter.helperVoltage(0);
                 }));
-                
-                drive.a().onTrue(new IntakeNote(this));
+
+                drive.a().onTrue(new ConditionalCommand(new InstantCommand(() -> intake.speed(-.5)),
+                                new IntakeNote(this), intake::loaded)).onFalse(new InstantCommand(() -> {
+                                        intake.speed(0);
+                                        profiledShoot.stop();
+                                }));
 
                 drive.rightBumper().onTrue(new InstantCommand(() -> { // Passing
                         profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
@@ -71,11 +75,10 @@ public class IO extends SubsystemBase {
                 }));
 
                 drive.leftBumper().onTrue(new InstantCommand(() -> intake.speed(-.5)))
-                .onFalse(new InstantCommand(() -> {
-                        intake.speed(0);
-                        profiledShoot.stop();
-                }));
-                
+                                .onFalse(new InstantCommand(() -> {
+                                        intake.speed(0);
+                                        profiledShoot.stop();
+                                }));
 
                 drive.povUp().onTrue(new InstantCommand(() -> {
                         profiledShoot.setAngle(115.0);
@@ -84,18 +87,16 @@ public class IO extends SubsystemBase {
 
                 drive.povDown().onTrue(new InstantCommand(() -> climber.setHangPos(Climber.HANG_DOWN_POS)));
 
-
                 drive.povRight().onTrue(new InstantCommand(() -> {
                         if (climber.elevatorPos() > 1)
                                 climber.setElevatorVolts(-4);
                 })).onFalse(new InstantCommand(() -> climber.setElevatorVolts(0)));
-                
-                drive.povLeft().onTrue(new InstantCommand(() -> climber.setElevatorPos(25)));
 
+                drive.povLeft().onTrue(new InstantCommand(() -> climber.setElevatorPos(25)));
 
                 // drive.rightTrigger().debounce(0.1);
                 // drive.leftTrigger().debounce(0.1);
-                
+
                 // drive.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
                 // drive.povUpLeft().onTrue(new InstantCommand(chassis::disable));
                 // drive.povDownRight().onTrue(new InstantCommand(chassis::enable));
@@ -103,23 +104,25 @@ public class IO extends SubsystemBase {
                 DriverStation.silenceJoystickConnectionWarning(true);
         }
 
-        public void configManual() {}
+        public void configManual() {
+        }
 
-          public void configTesting() {
-                  mech.leftTrigger().onTrue(new InstantCommand(() -> chassis.setOdometry(new Pose2d(1.2, 5.53, new Rotation2d()))));
+        public void configTesting() {
+                mech.leftTrigger().onTrue(
+                                new InstantCommand(() -> chassis.setOdometry(new Pose2d(1.2, 5.53, new Rotation2d()))));
                 mech.rightTrigger().onTrue(new InstantCommand(scheduler::cancelAll));
 
                 mech.leftBumper().onTrue(new InstantCommand(() -> intake.pivotVoltage(2)))
                                 .onFalse(new InstantCommand(() -> intake.pivotVoltage(0)));
                 mech.rightBumper().onTrue(new InstantCommand(() -> intake.pivotVoltage(-2)))
                                 .onFalse(new InstantCommand(() -> intake.pivotVoltage(0)));
-                                
+
                 mech.b().onTrue(new InstantCommand(() -> shooter.helperVoltage(4)))
                                 .onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
                 mech.a().onTrue(new InstantCommand(() -> profiledShoot
                                 .setAngle((double) DebugTable.get("Test Angle", Flywheel.PASS_OFF_ANGLE))));
                 mech.x().onTrue(new AutoFire(this, false));
-                mech.y().onTrue( new AutoFire(this, true));
+                mech.y().onTrue(new AutoFire(this, true));
 
         }
 
