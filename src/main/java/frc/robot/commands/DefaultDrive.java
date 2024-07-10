@@ -41,20 +41,14 @@ public class DefaultDrive extends Command {
     
     @Override
     public void execute() {
-        double scale = (double) DebugTable.get("Translation Scale", 1.0);
-        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.6); //0.65 for Shaan. 0.75 for Tristan.
+        double down_scale = 1 - modifyAxis(io.drive.getLeftTriggerAxis());
+        double up_scale = modifyAxis(io.drive.getRightTriggerAxis());
 
-        switch(io.chassis.SPEED_TYPE){
-            case DriveConstants.TURBO:
-            scale = 1.25;
-            rot_scale = (double) DebugTable.get("Rotation Scale", 0.8);
-            break;
-            
-            // case DriveConstants.SLOW:
-            // scale = 1.0;
-            // rot_scale = .25;
-            // break;
-        }
+        // double scale = (double) DebugTable.get("Translation Scale", 1.0) * down_scale + up_scale;
+        // double rot_scale = (double) DebugTable.get("Rotation Scale", 0.65) * down_scale + up_scale; //0.65 for Shaan. 0.75 for Tristan.
+
+        double scale = 1.0 * down_scale + up_scale;
+        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.65) * down_scale + up_scale; //0.65 for Shaan. 0.75 for Tristan.
 
         // double xSpeed = x_supplier.getAsDouble() * scale;
         // double ySpeed = y_supplier.getAsDouble() * scale;
@@ -86,7 +80,7 @@ public class DefaultDrive extends Command {
     }
 
     private static double modifyAxis(double value) {
-        value = deadband(value, 0.0); // Deadband
+        value = deadband(value, 0.1); // Deadband
         value = Math.copySign(value * value, value); // Square the axis
         return value;
     }

@@ -30,7 +30,7 @@ public class Climber extends SubsystemBase {
   public final static double ELEVATOR_UP_POS = 25;
 
   public final static double HANG_DOWN_POS = -25;
-  public final static double HANG_UP_POS = 125; 
+  public final static double HANG_UP_POS = 125;
 
   public Climber() {
     elevatorMotor.restoreFactoryDefaults();
@@ -59,13 +59,17 @@ public class Climber extends SubsystemBase {
     hangMotor.getConfigurator().apply(configs);
     hangFollower.getConfigurator().apply(configs);
   }
+
+  public boolean HangUp(){
+    return (hangMotor.getPosition().getValueAsDouble() > Climber.HANG_DOWN_POS + 5);
+  }
  
   public void setElevatorVolts(double volts){
-    elevatorMotor.setVoltage(volts);
+    elevatorMotor.setVoltage(volts); // TODO: Create a limit for how low or how high the elevator can go
   }
 
   public void setElevatorSpeed(double speed) {
-    elevatorMotor.set(speed);
+    elevatorMotor.set(speed); // TODO: Create a limit for how low or how high the elevator can go
   }
 
   public void elevatorStop() {
@@ -77,11 +81,11 @@ public class Climber extends SubsystemBase {
   }
 
   public void setElevatorPos(double pos) {
-    elevatorMotor.getPIDController().setReference(pos, ControlType.kPosition);
+    elevatorMotor.getPIDController().setReference(pos, ControlType.kPosition); // TODO: Create a limit for how low or how high the elevator can go
   }
 
   public void setHangVolts(double volts) {
-    hangMotor.setVoltage(volts);
+    hangMotor.setVoltage(volts); // TODO: Create a limit for how low or how high the hang can go
   }
 
   public double hangError(){
@@ -93,7 +97,7 @@ public class Climber extends SubsystemBase {
   }
 
   public void setHangSpeed(double speed) {
-    hangMotor.set(speed);
+    hangMotor.set(speed); // TODO: Create a limit for how low or how high the hang can go
   }
 
   public void hangStop() {
@@ -105,7 +109,7 @@ public class Climber extends SubsystemBase {
   }
 
   public void setHangPos(double pos) {
-    hangMotor.setControl(new PositionVoltage(pos).withSlot(0));
+    hangMotor.setControl(new PositionVoltage(pos).withSlot(0)); // TODO: Create a limit for how low or how high the hang can go
   }
 
   public void resetEncoders(){

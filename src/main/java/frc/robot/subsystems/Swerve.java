@@ -31,7 +31,6 @@ public class Swerve extends SubsystemBase {
     public static double MAX_VOLTAGE = 16;
     public final double MAX_VELOCITY = 20;
     public boolean field_oritented = true;
-    public int SPEED_TYPE = 0;
 
     private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
             new Translation2d(DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,

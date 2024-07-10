@@ -57,7 +57,7 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putString(host + "Stream Mode", (streamMode() == 0) ? "Main" : "Secondary");
     updateTargetData(table);
     
-    posePublisher.set(poseEstimation(new Rotation2d(0)));
+    posePublisher.set(poseEstimation());
     
     SmartDashboard.putNumberArray(host+ " TargetPose", tagPose());
     SmartDashboard.putNumber("Limelight Distance", distance());
@@ -91,8 +91,9 @@ public class Limelight extends SubsystemBase {
     return Math.abs(dist);
   }
 
-  public Pose2d poseEstimation(Rotation2d rotation) { // cosine is x pose, sine is y pose
+  public Pose2d poseEstimation() { // cosine is x pose, sine is y pose
     double[] tag = tagPose();
+    Rotation2d rotation = new Rotation2d(); // TODO: Estimate chassis rotation
 
     double rot = (tag[3] == 180) ? -1 : 1;
 
