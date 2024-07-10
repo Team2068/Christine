@@ -30,7 +30,7 @@ public class Swerve extends SubsystemBase {
 
     public static double MAX_VOLTAGE = 16;
     public final double MAX_VELOCITY = 20;
-    public int DRIVE_MODE = 0;
+    public boolean field_oritented = true;
     public int SPEED_TYPE = 0;
 
     private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
@@ -146,6 +146,12 @@ public class Swerve extends SubsystemBase {
         return state;
     }
 
+    public void adjustRotation(){
+        double rotation = (absoluteRotation() - 180) % 360;
+        rotation += (rotation < 0) ? 360 : 0;
+        pigeon2.setYaw(rotation);
+    }
+
     public Pose2d pose() {
         return odometry.getPoseMeters();
     }
@@ -229,7 +235,7 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch().getValueAsDouble());
         SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll().getValueAsDouble());
 
-        SmartDashboard.putString("Drive Mode", DriveConstants.DRIVE_MODE_DISPLAY[DRIVE_MODE]);
+        SmartDashboard.putString("Drive Mode", (field_oritented) ? "Field-Oriented" : "Robot-Oriented");
     }
 
     public static final class DriveConstants {
@@ -242,14 +248,6 @@ public class Swerve extends SubsystemBase {
         public static final String[] LAYOUT_TITLE = { "Front Left", "Front Right", "Back Left", "Back Right" };
 
         public static final int PIGEON_ID = 14;
-
-        // We are not dealing with enums being class BS
-        public static final String[] DRIVE_MODE_DISPLAY = { "Robot-Oriented", "Field-Oriented", "Fixed-Point",
-                "Fixed Alignment" };
-        public static final int ROBOT_ORIENTED = 0;
-        public static final int FIELD_ORIENTED = 1;
-        public static final int FIXED_POINT_TRACKING = 2;
-        public static final int FIXED_ALIGNMENT = 3;
 
         public static final int TURBO = 1;
         public static final int SLOW = 2;

@@ -1,8 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -70,26 +67,8 @@ public class DefaultDrive extends Command {
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 
-        Translation2d tr;
-        Rotation2d adjustmentAngle;
-
-        switch (io.chassis.DRIVE_MODE) {
-            case 1: // Field-Oriented
+        if (io.chassis.field_oritented){
             output = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, io.chassis.rotation());
-            break;
-            
-            case 2: // Fixed-Point Tracking
-            adjustmentAngle = io.chassis.pose().getRotation().plus(new Rotation2d(io.shooter_light.targetData().horizontalOffset));
-            tr = new Translation2d(xSpeed, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
-            output = new ChassisSpeeds(tr.getX(), tr.getY(), rotationSpeed);
-            break;
-
-            case 3: // Fixed Alignment
-            Pose2d pose = io.chassis.pose();
-            adjustmentAngle = pose.getRotation().plus(new Rotation2d(io.shooter_light.targetData().horizontalOffset));
-            tr = new Translation2d(0, xSpeed).rotateBy(adjustmentAngle.unaryMinus());
-            output = new ChassisSpeeds(tr.getX(), tr.getY(), 0);
-            break;
         }
 
         io.chassis.drive(output);

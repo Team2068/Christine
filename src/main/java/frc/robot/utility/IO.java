@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Swerve.*;
 
 public class IO extends SubsystemBase {
         final CommandXboxController driveController = new CommandXboxController(0);
@@ -37,47 +36,8 @@ public class IO extends SubsystemBase {
                 chassis.setDefaultCommand(new DefaultDrive(this, driveController));
                 shooter.setDefaultCommand(profiledShoot);
 
-                driveController.leftBumper()
-                                .onTrue(new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.ROBOT_ORIENTED));
-                driveController.rightBumper()
-                                .onTrue(new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED));
-                driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.SPEED_TYPE = DriveConstants.SLOW))
-                                .onFalse(new InstantCommand(() -> chassis.SPEED_TYPE = 0));
-                driveController.rightTrigger()
-                                .onTrue(new InstantCommand(() -> chassis.SPEED_TYPE = DriveConstants.TURBO))
-                                .onFalse(new InstantCommand(() -> chassis.SPEED_TYPE = 0));
 
-                // driveController.a().onTrue(new Aimbot(this, false));
-                // driveController.b().onTrue(new Aimbot(this, true));
-                driveController.x().onTrue(new InstantCommand(profiledShoot::stop));
                 
-                driveController.y().onTrue(new InstantCommand(() -> {
-                        profiledShoot.setAngle(115.0);
-                        climber.setHangPos(Climber.HANG_UP_POS);
-                }));;
-                driveController.a().onTrue(new InstantCommand(() -> {
-                        // profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
-                        climber.setHangPos(Climber.HANG_DOWN_POS);
-                }));
-                driveController.b().onTrue(new Trap(this));
-
-
-                driveController.start().onTrue(new InstantCommand(climber::resetEncoders));
-                driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
-
-                driveController.povRight().onTrue(new InstantCommand(() -> {
-                        if (climber.elevatorPos() > 1)
-                                climber.setElevatorVolts(-4);
-                })).onFalse(new InstantCommand(() -> climber.setElevatorVolts(0)));
-                
-                driveController.povLeft().onTrue(new InstantCommand(() -> climber.setElevatorPos(25)));
-
-                driveController.povUp().onTrue(new InstantCommand(() -> climber.setHangVolts(6)))
-                                .onFalse(new InstantCommand(() -> climber.setHangVolts(0)));
-                
-                driveController.povDown().onTrue(new InstantCommand(() -> climber.setHangVolts(-6)))
-                                .onFalse(new InstantCommand(() -> climber.setHangVolts(0)));
-
                 // driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
                 // driveController.povUpLeft().onTrue(new InstantCommand(chassis::disable));
                 // driveController.povDownRight().onTrue(new InstantCommand(chassis::enable));
