@@ -58,8 +58,8 @@ public class IO extends SubsystemBase {
                         shooter.helperVoltage(0);
                 }));
 
-                drive.a().onTrue(new ConditionalCommand(new InstantCommand(() -> intake.speed(-.5)),
-                                new IntakeNote(this), intake::loaded)).onFalse(new InstantCommand(() -> {
+                drive.a().onTrue(new ConditionalCommand(new PassOff(this, false), new InstantCommand(() -> intake.speed(-.5)),
+                                 intake::loaded)).onFalse(new InstantCommand(() -> {
                                         intake.speed(0);
                                         profiledShoot.stop();
                                 }));
