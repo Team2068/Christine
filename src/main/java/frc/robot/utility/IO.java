@@ -64,17 +64,19 @@ public class IO extends SubsystemBase {
                                         profiledShoot.stop();
                                 }));
 
-                drive.rightBumper().onTrue(new InstantCommand(() -> { // Passing
-                        profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
-                        shooter.flywheelVoltage(-16.0);
-                        shooter.helperVoltage(12.0);
-                })).onFalse(new InstantCommand(() -> {
-                        intake.speed(0);
-                        shooter.flywheelVoltage(0);
-                        shooter.helperVoltage(0);
-                }));
+                // drive.rightBumper().onTrue(new InstantCommand(() -> { // Passing
+                //         profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
+                //         shooter.flywheelVoltage(-16.0);
+                //         shooter.helperVoltage(12.0);
+                // })).onFalse(new InstantCommand(() -> {
+                //         intake.speed(0);
+                //         shooter.flywheelVoltage(0);
+                //         shooter.helperVoltage(0);
+                // }));
 
-                drive.leftBumper().onTrue(new InstantCommand(() -> intake.speed(-.5)))
+                drive.rightBumper().onTrue(new ToggleIntake(this));
+
+                drive.leftBumper().onTrue(new InstantCommand(() -> intake.speed(.5)))
                                 .onFalse(new InstantCommand(() -> {
                                         intake.speed(0);
                                         profiledShoot.stop();
@@ -94,6 +96,8 @@ public class IO extends SubsystemBase {
 
                 drive.povLeft().onTrue(new InstantCommand(() -> climber.setElevatorPos(25)));
 
+                drive.rightTrigger().onTrue(new InstantCommand(() -> climber.setHangSpeed(0.1))).onFalse(new InstantCommand(() -> climber.setHangSpeed(0.0)));
+                drive.leftTrigger().onTrue(new InstantCommand(() -> climber.setHangSpeed(-0.1))).onFalse(new InstantCommand(() -> climber.setHangSpeed(0.0)));
                 // drive.rightTrigger().debounce(0.1);
                 // drive.leftTrigger().debounce(0.1);
 
