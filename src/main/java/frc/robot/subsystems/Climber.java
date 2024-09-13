@@ -29,10 +29,11 @@ public class Climber extends SubsystemBase {
   public final static double ELEVATOR_DOWN_POS = 0;
   public final static double ELEVATOR_UP_POS = 25;
 
-  public final static double HANG_DOWN_POS = -25;
-  public final static double HANG_UP_POS = 125;
+  public final static double HANG_DOWN_POS = 10;
+  public final static double HANG_UP_POS = -130;
 
   public Climber() {
+
     elevatorMotor.restoreFactoryDefaults();
 
     elevatorFollower.follow(elevatorMotor, true);
@@ -61,7 +62,7 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean HangUp(){
-    return (hangMotor.getPosition().getValueAsDouble() > Climber.HANG_DOWN_POS + 5);
+    return (hangMotor.getPosition().getValueAsDouble() < Climber.HANG_DOWN_POS + 5);
   }
  
   public void setElevatorVolts(double volts){

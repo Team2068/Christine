@@ -38,7 +38,7 @@ public class RobotContainer {
       new InstantCommand(autos.getSelected()::schedule)));
 
     io.configGlobal();
-    io.configManual();
+    io.config1Player();
   }
 
   public void addAutos() {
