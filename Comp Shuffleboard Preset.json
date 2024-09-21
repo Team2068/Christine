@@ -147,6 +147,15 @@
                   "_title": "Autos",
                   "_glyph": 148,
                   "_showGlyph": false
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///SmartDashboard/Flywheel Active",
+                  "_title": "Flywheel Active",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
                 }
               ]
             }
@@ -236,7 +245,7 @@
               ]
             }
           },
-          "9,0": {
+          "6,1": {
             "size": [
               1,
               1
@@ -249,7 +258,7 @@
               "_showGlyph": false
             }
           },
-          "10,0": {
+          "7,1": {
             "size": [
               1,
               1
@@ -262,7 +271,7 @@
               "_showGlyph": false
             }
           },
-          "11,0": {
+          "8,1": {
             "size": [
               1,
               1
@@ -271,84 +280,6 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Pigeon Roll",
               "_title": "Pigeon Roll",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
-              "_title": "limelight_PipelineName",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Interface",
-              "_title": "limelight_Interface",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Stream",
-              "_title": "limelight_Stream",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Stream Mode",
-              "_title": "Stream Mode",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Expected Profile Angle",
-              "_title": "Expected Profile Angle",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Angle Voltage",
-              "_title": "Angle Voltage",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -392,53 +323,6 @@
               "_showGlyph": false
             }
           },
-          "9,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/shooterStream Mode",
-              "_title": "shooterStream Mode",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/intakeStream Mode",
-              "_title": "intakeStream Mode",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,0": {
-            "size": [
-              3,
-              4
-            ],
-            "content": {
-              "_type": "Camera Stream",
-              "_source0": "camera_server://limelight-intake",
-              "_title": "Camera Stream",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Crosshair/Show crosshair": true,
-              "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": true,
-              "Controls/Rotation": "NONE",
-              "compression": 100.0,
-              "fps": -1,
-              "imageWidth": -1,
-              "imageHeight": -1
-            }
-          },
           "11,3": {
             "size": [
               1,
@@ -465,22 +349,7 @@
               "_showGlyph": false
             }
           },
-          "6,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/Flywheel Active",
-              "_title": "Flywheel Active",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "7,4": {
+          "6,0": {
             "size": [
               1,
               1
@@ -493,7 +362,7 @@
               "_showGlyph": false
             }
           },
-          "8,4": {
+          "7,0": {
             "size": [
               1,
               1

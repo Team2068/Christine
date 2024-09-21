@@ -49,10 +49,11 @@ public class IO extends SubsystemBase {
 
                 drive.start().onTrue(new InstantCommand(chassis::resetOdometry));
                 drive.back().onTrue(new InstantCommand(() -> chassis.setOdometry(shooter_light.poseEstimation())));
+                // drive.back().onTrue(new Trap(this));
 
                 drive.y().onTrue(new InstantCommand(profiledShoot::stop));
-                drive.b().onTrue(new ConditionalCommand(new SupaTrap(this), new InstantCommand(() -> {
-                        profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
+                drive.b().onTrue(new ConditionalCommand(new Trap(this), new InstantCommand(() -> {
+                        // profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
                         climber.setHangPos(Climber.HANG_UP_POS);
                 }), climber::HangUp));
 
@@ -64,6 +65,7 @@ public class IO extends SubsystemBase {
                         intake.speed(0);
                         shooter.flywheelVoltage(0);
                         shooter.helperVoltage(0);
+                        // profiledShoot.stop();
                 }));
 
                 drive.a().onTrue(new ConditionalCommand(new PassOff(this, false),
@@ -93,19 +95,27 @@ public class IO extends SubsystemBase {
                                         profiledShoot.stop();
                                 }));
 
-                drive.povUp().onTrue(new InstantCommand(() -> {
-                        profiledShoot.setAngle(115.0);
-                        climber.setHangPos(Climber.HANG_UP_POS);
-                }));
+                drive.povUp().onTrue(new InstantCommand(() -> climber.setHangVolts(-6)))
+.onFalse(new InstantCommand(() -> climber.setHangVolts(0)));
 
-                drive.povDown().onTrue(new InstantCommand(() -> climber.setHangPos(Climber.HANG_DOWN_POS)));
+                drive.povDown().onTrue(new InstantCommand(() -> climber.setHangVolts(6)))
+.onFalse(new InstantCommand(() -> climber.setHangVolts(0)));
+
+
+                // drive.povDown().onTrue(new InstantCommand(() -> climber.setHangPos(Climber.HANG_DOWN_POS)));
 
                 drive.povRight().onTrue(new InstantCommand(() -> {
-                        if (climber.elevatorPos() > 1)
+                        // if (climber.elevatorPos() > 1)
                                 climber.setElevatorVolts(-4);
                 })).onFalse(new InstantCommand(() -> climber.setElevatorVolts(0)));
 
-                drive.povLeft().onTrue(new InstantCommand(() -> climber.setElevatorPos(25)));
+
+                drive.povLeft().onTrue(new InstantCommand(() -> {
+                        // if (climber.elevatorPos() > 1)
+                                climber.setElevatorVolts(4);
+                })).onFalse(new InstantCommand(() -> climber.setElevatorVolts(0)));
+
+                // drive.povLeft().onTrue(new InstantCommand(() -> climber.setElevatorPos(25)));
         }
 
         public void config2Player() {
