@@ -48,8 +48,12 @@ public class IO extends SubsystemBase {
                 drive.rightStick().onTrue(new InstantCommand(() -> chassis.field_oritented = !chassis.field_oritented));
 
                 drive.start().onTrue(new InstantCommand(chassis::resetOdometry));
-                drive.back().onTrue(new InstantCommand(() -> chassis.setOdometry(shooter_light.poseEstimation())));
-                // drive.back().onTrue(new Trap(this));
+                // drive.back().onTrue(new InstantCommand(() -> chassis.setOdometry(shooter_light.poseEstimation())));
+                drive.back().onTrue(new InstantCommand(() -> intake.speed(-1.0)))
+                                .onFalse(new InstantCommand(() -> {
+                                        intake.speed(0);
+                                        profiledShoot.stop();
+                                }));
 
                 drive.y().onTrue(new InstantCommand(profiledShoot::stop));
                 drive.b().onTrue(new ConditionalCommand(new Trap(this), new InstantCommand(() -> {
@@ -65,7 +69,7 @@ public class IO extends SubsystemBase {
                         intake.speed(0);
                         shooter.flywheelVoltage(0);
                         shooter.helperVoltage(0);
-                        // profiledShoot.stop();
+                        profiledShoot.stop();
                 }));
 
                 drive.a().onTrue(new ConditionalCommand(new PassOff(this, false),
@@ -83,6 +87,7 @@ public class IO extends SubsystemBase {
                         intake.speed(0);
                         shooter.flywheelVoltage(0);
                         shooter.helperVoltage(0);
+                        profiledShoot.stop();
                 }));
 
                 drive.leftTrigger().onTrue(new AmpShooting(this));
