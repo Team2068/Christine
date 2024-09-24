@@ -21,6 +21,7 @@ public class IntakeNote extends Command {
 
   @Override
   public void initialize() {
+    io.drive.getHID().setRumble(RumbleType.kBothRumble, 0.5);
   }
 
   @Override
@@ -30,12 +31,8 @@ public class IntakeNote extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    io.drive.getHID().setRumble(RumbleType.kBothRumble, 1.0);
+    io.drive.getHID().setRumble(RumbleType.kBothRumble, 0);
     io.intake.speed(0);
-
-    new WaitCommand(.03).andThen(new InstantCommand(() -> {
-      io.drive.getHID().setRumble(RumbleType.kBothRumble, 0.0);
-    })).schedule();
   }
 
   @Override

@@ -46,6 +46,7 @@ public class Intake extends SubsystemBase {
 
   public boolean loaded() {
     return beamBreak.get();
+    // return Math.abs(intake.getTorqueCurrent().getValue()) < 40; 
   }
 
   @Override
@@ -54,5 +55,6 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putBoolean("Beam Break", loaded());
     SmartDashboard.putNumber("Intake Angle", angle());
     SmartDashboard.putBoolean("Intake Closed", closed);
+    SmartDashboard.putNumber("Torque Output", intake.getTorqueCurrent().getValue()); //getStatorCurrent() may be useful
   }
 }

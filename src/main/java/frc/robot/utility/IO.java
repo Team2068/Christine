@@ -48,12 +48,11 @@ public class IO extends SubsystemBase {
                 drive.rightStick().onTrue(new InstantCommand(() -> chassis.field_oritented = !chassis.field_oritented));
 
                 drive.start().onTrue(new InstantCommand(chassis::resetOdometry));
-                drive.back().onTrue(new InstantCommand(() -> chassis.setOdometry(shooter_light.poseEstimation())));
-                // drive.back().onTrue(new Trap(this));
+                drive.back().onTrue(new InstantCommand(() -> intake.intakeVoltage(12.0))).onFalse(new InstantCommand(() -> intake.intakeVoltage(0.0)));
 
                 drive.y().onTrue(new InstantCommand(profiledShoot::stop));
                 drive.b().onTrue(new ConditionalCommand(new Trap(this), new InstantCommand(() -> {
-                        // profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
+                        profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
                         climber.setHangPos(Climber.HANG_UP_POS);
                 }), climber::HangUp));
 
@@ -65,7 +64,7 @@ public class IO extends SubsystemBase {
                         intake.speed(0);
                         shooter.flywheelVoltage(0);
                         shooter.helperVoltage(0);
-                        // profiledShoot.stop();
+                        profiledShoot.stop();
                 }));
 
                 drive.a().onTrue(new ConditionalCommand(new PassOff(this, false),
@@ -95,10 +94,10 @@ public class IO extends SubsystemBase {
                                         profiledShoot.stop();
                                 }));
 
-                drive.povUp().onTrue(new InstantCommand(() -> climber.setHangVolts(-6)))
+                drive.povUp().onTrue(new InstantCommand(() -> climber.setHangVolts(6)))
 .onFalse(new InstantCommand(() -> climber.setHangVolts(0)));
 
-                drive.povDown().onTrue(new InstantCommand(() -> climber.setHangVolts(6)))
+                drive.povDown().onTrue(new InstantCommand(() -> climber.setHangVolts(-6)))
 .onFalse(new InstantCommand(() -> climber.setHangVolts(0)));
 
 
@@ -203,21 +202,22 @@ public class IO extends SubsystemBase {
         }
 
         public void configTesting() {
-                mech.leftTrigger().onTrue(
-                                new InstantCommand(() -> chassis.setOdometry(new Pose2d(1.2, 5.53, new Rotation2d()))));
-                mech.rightTrigger().onTrue(new InstantCommand(scheduler::cancelAll));
+                // mech.leftTrigger().onTrue(
+                //                 new InstantCommand(() -> chassis.setOdometry(new Pose2d(1.2, 5.53, new Rotation2d()))));
+                // mech.rightTrigger().onTrue(new InstantCommand(scheduler::cancelAll));
 
-                mech.leftBumper().onTrue(new InstantCommand(() -> intake.pivotVoltage(2)))
-                                .onFalse(new InstantCommand(() -> intake.pivotVoltage(0)));
-                mech.rightBumper().onTrue(new InstantCommand(() -> intake.pivotVoltage(-2)))
-                                .onFalse(new InstantCommand(() -> intake.pivotVoltage(0)));
+                // mech.leftBumper().onTrue(new InstantCommand(() -> intake.pivotVoltage(2)))
+                //                 .onFalse(new InstantCommand(() -> intake.pivotVoltage(0)));
+                // mech.rightBumper().onTrue(new InstantCommand(() -> intake.pivotVoltage(-2)))
+                //                 .onFalse(new InstantCommand(() -> intake.pivotVoltage(0)));
 
-                mech.b().onTrue(new InstantCommand(() -> shooter.helperVoltage(4)))
-                                .onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
-                mech.a().onTrue(new InstantCommand(() -> profiledShoot
-                                .setAngle((double) DebugTable.get("Test Angle", Flywheel.PASS_OFF_ANGLE))));
-                mech.x().onTrue(new AutoFire(this, false));
-                mech.y().onTrue(new AutoFire(this, true));
+                // mech.b().onTrue(new InstantCommand(() -> shooter.helperVoltage(4)))
+                //                 .onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
+                // mech.a().onTrue(new InstantCommand(() -> profiledShoot
+                //                 .setAngle((double) DebugTable.get("Test Angle", Flywheel.PASS_OFF_ANGLE))));
+                // mech.x().onTrue(new AutoFire(this, false));
+                // mech.y().onTrue(new AutoFire(this, true));
+                intake.setDefaultCommand(new InstantCommand(() -> intake.intakeVoltage(mech.getLeftY() * 12), intake));
 
                 drive.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
                 drive.povUpLeft().onTrue(new InstantCommand(chassis::disable));
