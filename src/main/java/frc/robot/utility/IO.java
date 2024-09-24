@@ -82,6 +82,7 @@ public class IO extends SubsystemBase {
                         intake.speed(0);
                         shooter.flywheelVoltage(0);
                         shooter.helperVoltage(0);
+                        profiledShoot.stop();
                 }));
 
                 drive.leftTrigger().onTrue(new AmpShooting(this));
